@@ -1,4 +1,5 @@
 g++ -c main.cpp -ISFML/SFML/include
+
 g++ main.o -o tron -LSFML/SFML/lib -lsfml-graphics -lsfml-window -lsfml-syste
 m
 
