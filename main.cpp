@@ -13,15 +13,55 @@ private:
 	vector<short> position;
 	bool isLaserActive;
 	bool isPlayer;
+	// Texture cycleTexture;
 
 public:
-	Cycle(bool isPlayer, vector<short> position)
+	// Sprite cycleSprite;
+
+	Cycle(bool isPlayer, vector<short> position, string path, vector<int> coordinates)
 	{
 		this->position = {0, 0, 0};
 		this->isPlayer = isPlayer;
 		isLaserActive = false;
+		// cycleTexture.loadFromFile(path, IntRect(coordinates[0], coordinates[1],
+		// 	 									coordinates[2], coordinates[3]));
+		// cycleTexture.setSmooth(false);
+		// Sprite cycleSprite(cycleTexture);
 	}
 
+private:
+	void rotate(Sprite *cycleSprite)
+	{
+		cout << position[2] << endl;
+		switch (position[2]) {
+			case 0:
+				cycleSprite->setRotation(0.f);
+				break;
+			case 1:
+				cycleSprite->setRotation(90.f);
+				break;
+			case 2:
+				cycleSprite->setRotation(180.f);
+				break;
+			case 3:
+				cycleSprite->setRotation(270.f);
+				break;
+		}
+	}
+
+	// Функция, проверяющая столкновение светоцикла со стенками
+	bool checkCollision()
+	{
+		return true;
+	}
+
+	// Функция, "взрывающая" светоцикл в случае столкновения
+	void destroy()
+	{
+
+	}
+
+public:
 	void setDirection(int direction)
 	{
 		// Directions:
@@ -29,7 +69,7 @@ public:
 		// 1 - right
 		// 2 - down
 		// 3 - left
-		
+
 		short d1 = (direction - 1) % 4;
 		short d2 = (direction + 1) % 4;
 
@@ -60,26 +100,63 @@ public:
 				break;
 		}
 	}
+
+	void move(Sprite *cycleSprite)
+	{
+		if(checkCollision())
+		{
+			rotate(cycleSprite);
+			// cout << position[0] << " " << position[1] << '\n';
+			// cycleSprite.setPosition(position[0], position[1]);
+		}
+		else
+		{
+			destroy();
+		}
+	}
+
+	vector<short> getPosition()
+	{
+		return this->position;
+	}
 };
 
 int main()
 {
 	// Создаем окно размером 800 на 600 и частотой обновления 60 кадров в секунду
-	RenderWindow window(VideoMode(800, 600),
+	RenderWindow window(VideoMode(1000, 1000),
 						"TRON", Style::Close | Style::Titlebar);
 	window.setFramerateLimit(60);
 
-	// Добаваляем текстуры
-	Texture map;
-	map.loadFromFile("./source/imgs/map.png");
+	// Добавляем шрифты
+	Font cyberwayFont;
+	Font asherpunkFont;
+
+	cyberwayFont.loadFromFile("./source/fonts/CyberwayRiders.ttf");
+	asherpunkFont.loadFromFile("./source/fonts/AsherPunk.ttf");
+
+	// Добавляем текст
+	Text cyberpunkText("Tron game", cyberwayFont, 50);
 
 	// Создаем объекты игрока и действия
-	Cycle player {true, {0, 0, 0}};
+	Cycle player {true, {0, 0, 0}, "./source/imgs/cycles.png", {13, 0, 13, 25}};
 	Event evnt;
+
+	// Создаем текстуру и спрайт игрока
+	Texture plTexture;
+	plTexture.loadFromFile("./source/imgs/cycles.png", IntRect(13, 0, 13, 25));
+	plTexture.setSmooth(false);
+	Sprite plSprite(plTexture);
+	plSprite.setScale(3.f, 3.f);
+
+	// Сдвинем спрайт игрока на цетр
+	plSprite.setPosition(400.f, 300.f);
 
 	// Основной цикл
 	while (window.isOpen())
 	{
+		// Берем позицию игрока в начале игрового цикла
+		vector<short> plOldPos = player.getPosition();
 		while (window.pollEvent(evnt))
 		{
 			if (evnt.type == Event::Closed) window.close();
@@ -99,11 +176,16 @@ int main()
 		if (Keyboard::isKeyPressed(Keyboard::F)) player.changeLaserCondition();
 
 		player.update();
+		player.move(&plSprite);
+
 
 		// Очищаем окно
 		window.clear();
+
 		// Here is draw magick :)
-			// <-
+		window.draw(cyberpunkText);
+		window.draw(plSprite);
+
 		// Отображаем окно
 		window.display();
 	}
