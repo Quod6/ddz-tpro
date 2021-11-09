@@ -7,17 +7,16 @@
 using namespace std;
 using namespace sf;
 
+const float scale = 3.f;
+
 class Cycle
 {
 private:
 	vector<short> position;
 	bool isLaserActive;
 	bool isPlayer;
-	// Texture cycleTexture;
 
 public:
-	// Sprite cycleSprite;
-
 	Cycle(bool isPlayer, vector<short> position, string path, vector<int> coordinates)
 	{
 		this->position = {0, 0, 0};
@@ -87,16 +86,16 @@ public:
 	{
 		switch (position[2]) {
 			case 0:
-				position[1] += 10;
+				position[1] += 5;
 				break;
 			case 1:
-				position[0] += 10;
+				position[0] += 5;
 				break;
 			case 2:
-				position[1] -= 10;
+				position[1] -= 5;
 				break;
 			case 3:
-				position[0] -= 10;
+				position[0] -= 5;
 				break;
 		}
 	}
@@ -106,8 +105,8 @@ public:
 		if(checkCollision())
 		{
 			rotate(cycleSprite);
-			// cout << position[0] << " " << position[1] << '\n';
-			// cycleSprite.setPosition(position[0], position[1]);
+			cout << position[0] << " " << position[1] << '\n';
+			cycleSprite->setPosition(-position[0], -position[1]);
 		}
 		else
 		{
@@ -139,7 +138,7 @@ int main()
 	Text cyberpunkText("Tron game", cyberwayFont, 50);
 
 	// Создаем объекты игрока и действия
-	Cycle player {true, {0, 0, 0}, "./source/imgs/cycles.png", {13, 0, 13, 25}};
+	Cycle player {true, {400, 300, 0}, "./source/imgs/cycles.png", {13, 0, 13, 25}};
 	Event evnt;
 
 	// Создаем текстуру и спрайт игрока
@@ -147,7 +146,9 @@ int main()
 	plTexture.loadFromFile("./source/imgs/cycles.png", IntRect(13, 0, 13, 25));
 	plTexture.setSmooth(false);
 	Sprite plSprite(plTexture);
-	plSprite.setScale(3.f, 3.f);
+	plSprite.setScale(scale, scale);
+	plSprite.setOrigin(plSprite.getTexture()->getSize().x / 2,
+					   plSprite.getTexture()->getSize().y / 2);
 
 	// Сдвинем спрайт игрока на цетр
 	plSprite.setPosition(400.f, 300.f);
