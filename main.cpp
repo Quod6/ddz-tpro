@@ -7,32 +7,43 @@
 using namespace std;
 using namespace sf;
 
-const float scale = 3.f;
+const float scale = 1.5f;
+const int windowWidth = 1280;
+const int windowHeight = 720;
 
 class Cycle
 {
 private:
-	vector<short> position;
+	Vector3i position;
+	Vector3i oldPos;
 	bool isLaserActive;
-	bool isPlayer;
+	vector<Vector3i> moveGrid;
 
 public:
-	Cycle(bool isPlayer, vector<short> position, string path, vector<int> coordinates)
+	Cycle(vector<short> position)
 	{
-		this->position = {0, 0, 0};
-		this->isPlayer = isPlayer;
+		this->position = {position[0], position[1], position[2]};
+		switch (this->position.z) {
+			case 0:
+				oldPos = {position[0], position[1] + 30, position[2]};
+				break;
+			case 1:
+				oldPos = {position[0] - 30, position[1], position[2]};
+				break;
+			case 2:
+				oldPos = {position[0], position[1] - 30, position[2]};
+				break;
+			case 3:
+				oldPos = {position[0] + 30, position[1], position[2]};
+				break;
+		}
 		isLaserActive = false;
-		// cycleTexture.loadFromFile(path, IntRect(coordinates[0], coordinates[1],
-		// 	 									coordinates[2], coordinates[3]));
-		// cycleTexture.setSmooth(false);
-		// Sprite cycleSprite(cycleTexture);
 	}
 
 private:
 	void rotate(Sprite *cycleSprite)
 	{
-		cout << position[2] << endl;
-		switch (position[2]) {
+		switch (position.z) {
 			case 0:
 				cycleSprite->setRotation(0.f);
 				break;
@@ -49,8 +60,18 @@ private:
 	}
 
 	// Функция, проверяющая столкновение светоцикла со стенками
-	bool checkCollision()
+	bool checkCollision(Sprite *cycleSprite)
 	{
+		if (position.x - cycleSprite->getTexture()->getSize().y / 2 <= 0 ||
+			position.x + cycleSprite->getTexture()->getSize().y / 2 >= windowWidth)
+		{
+			return false;
+		}
+		if (position.y - cycleSprite->getTexture()->getSize().y / 2 <= 0 ||
+			position.y + cycleSprite->getTexture()->getSize().y / 2 >= windowHeight)
+		{
+			return false;
+		}
 		return true;
 	}
 
@@ -58,6 +79,24 @@ private:
 	void destroy()
 	{
 
+	}
+
+	void update()
+	{
+		switch (position.z) {
+			case 0:
+				position.y -= 5;
+				break;
+			case 1:
+				position.x += 5;
+				break;
+			case 2:
+				position.y += 5;
+				break;
+			case 3:
+				position.x -= 5;
+				break;
+		}
 	}
 
 public:
@@ -74,7 +113,7 @@ public:
 
 		if (d1 < 0) d1 += 4;
 
-		if (d1 == position[2] || d2 == position[2]) position[2] = direction;
+		if (d1 == position.z || d2 == position.z) position.z = direction;
 	}
 
 	void changeLaserCondition()
@@ -82,31 +121,13 @@ public:
 		isLaserActive = !isLaserActive;
 	}
 
-	void update()
-	{
-		switch (position[2]) {
-			case 0:
-				position[1] += 5;
-				break;
-			case 1:
-				position[0] += 5;
-				break;
-			case 2:
-				position[1] -= 5;
-				break;
-			case 3:
-				position[0] -= 5;
-				break;
-		}
-	}
-
 	void move(Sprite *cycleSprite)
 	{
-		if(checkCollision())
+		if(checkCollision(cycleSprite))
 		{
+			update();
 			rotate(cycleSprite);
-			cout << position[0] << " " << position[1] << '\n';
-			cycleSprite->setPosition(-position[0], -position[1]);
+			cycleSprite->setPosition(position.x, position.y);
 		}
 		else
 		{
@@ -114,31 +135,49 @@ public:
 		}
 	}
 
-	vector<short> getPosition()
+	void updateOldPos()
+	{
+		cout << "{" << oldPos.x << ", " << oldPos.y << ", " << oldPos.z << "} <- ";
+		oldPos = position;
+		cout << "{" << oldPos.x << ", " << oldPos.y << ", " << oldPos.z << "}" << endl;
+	}
+
+	Vector3i getPosition()
 	{
 		return this->position;
+	}
+
+	Vector3i getDeltaPos()
+	{
+		return {abs(position.x - oldPos.x),
+				abs(position.y - oldPos.y),
+				position.z - oldPos.z};
 	}
 };
 
 int main()
 {
 	// Создаем окно размером 800 на 600 и частотой обновления 60 кадров в секунду
-	RenderWindow window(VideoMode(1000, 1000),
+	RenderWindow window(VideoMode(windowWidth, windowHeight),
 						"TRON", Style::Close | Style::Titlebar);
 	window.setFramerateLimit(60);
+
+	// Создаем фон
+	Texture bgT;
+	bgT.loadFromFile("./source/imgs/map.png");
+	Sprite bgS(bgT);
+	bgS.setOrigin(bgT.getSize().x / 2, bgT.getSize().y / 2);
+	bgS.setPosition(windowWidth / 2, windowHeight / 2);
+	bgS.setScale(1.2f, 1.2f);
 
 	// Добавляем шрифты
 	Font cyberwayFont;
 	Font asherpunkFont;
-
 	cyberwayFont.loadFromFile("./source/fonts/CyberwayRiders.ttf");
 	asherpunkFont.loadFromFile("./source/fonts/AsherPunk.ttf");
 
-	// Добавляем текст
-	Text cyberpunkText("Tron game", cyberwayFont, 50);
-
 	// Создаем объекты игрока и действия
-	Cycle player {true, {400, 300, 0}, "./source/imgs/cycles.png", {13, 0, 13, 25}};
+	Cycle player {{500, 500, 0}};
 	Event evnt;
 
 	// Создаем текстуру и спрайт игрока
@@ -151,13 +190,17 @@ int main()
 					   plSprite.getTexture()->getSize().y / 2);
 
 	// Сдвинем спрайт игрока на цетр
-	plSprite.setPosition(400.f, 300.f);
+	plSprite.setPosition(500.f, 500.f);
 
+	// Дополнительные переменные
+	Vector3i plDeltaPos;
+
+	// Перед основным циклом обновляем старые координаты, чтобы они стали начальной точкой
+	player.updateOldPos();
 	// Основной цикл
 	while (window.isOpen())
 	{
 		// Берем позицию игрока в начале игрового цикла
-		vector<short> plOldPos = player.getPosition();
 		while (window.pollEvent(evnt))
 		{
 			if (evnt.type == Event::Closed) window.close();
@@ -169,22 +212,40 @@ int main()
 		}
 
 		// Here is move magick :)
-		if (Keyboard::isKeyPressed(Keyboard::W)) player.setDirection(0);
-		if (Keyboard::isKeyPressed(Keyboard::A)) player.setDirection(3);
-		if (Keyboard::isKeyPressed(Keyboard::S)) player.setDirection(2);
-		if (Keyboard::isKeyPressed(Keyboard::D)) player.setDirection(1);
+		plDeltaPos = player.getDeltaPos();
+		if (plDeltaPos.x >= 30 || plDeltaPos.y >= 30)
+		{
+			if (Keyboard::isKeyPressed(Keyboard::W))
+			{
+				player.setDirection(0);
+				player.updateOldPos();
+			}
+			else if (Keyboard::isKeyPressed(Keyboard::A))
+			{
+				player.setDirection(3);
+				player.updateOldPos();
+			}
+			else if (Keyboard::isKeyPressed(Keyboard::S))
+			{
+				player.setDirection(2);
+				player.updateOldPos();
+			}
+			else if (Keyboard::isKeyPressed(Keyboard::D))
+			{
+				player.setDirection(1);
+				player.updateOldPos();
+			}
+		}
 
 		if (Keyboard::isKeyPressed(Keyboard::F)) player.changeLaserCondition();
 
-		player.update();
 		player.move(&plSprite);
 
-
-		// Очищаем окно
+		// Очищаем окно и рисуем фон
 		window.clear();
+		window.draw(bgS);
 
 		// Here is draw magick :)
-		window.draw(cyberpunkText);
 		window.draw(plSprite);
 
 		// Отображаем окно
