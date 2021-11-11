@@ -10,6 +10,7 @@ using namespace sf;
 const float scale = 1.5f;
 const int windowWidth = 1280;
 const int windowHeight = 720;
+const int speed = 3;
 
 class Cycle
 {
@@ -85,16 +86,16 @@ private:
 	{
 		switch (position.z) {
 			case 0:
-				position.y -= 5;
+				position.y -= speed;
 				break;
 			case 1:
-				position.x += 5;
+				position.x += speed;
 				break;
 			case 2:
-				position.y += 5;
+				position.y += speed;
 				break;
 			case 3:
-				position.x -= 5;
+				position.x -= speed;
 				break;
 		}
 	}
@@ -137,9 +138,7 @@ public:
 
 	void updateOldPos()
 	{
-		cout << "{" << oldPos.x << ", " << oldPos.y << ", " << oldPos.z << "} <- ";
 		oldPos = position;
-		cout << "{" << oldPos.x << ", " << oldPos.y << ", " << oldPos.z << "}" << endl;
 	}
 
 	Vector3i getPosition()
