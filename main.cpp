@@ -18,7 +18,6 @@ private:
 	Vector3i position;
 	Vector3i oldPos;
 	bool isLaserActive;
-	vector<Vector3i> moveGrid;
 
 public:
 	Cycle(vector<short> position)
@@ -100,6 +99,11 @@ private:
 		}
 	}
 
+	void makeLaser()
+	{
+
+	}
+
 public:
 	void setDirection(int direction)
 	{
@@ -126,6 +130,7 @@ public:
 	{
 		if(checkCollision(cycleSprite))
 		{
+			if (isLaserActive)  makeLaser();
 			update();
 			rotate(cycleSprite);
 			cycleSprite->setPosition(position.x, position.y);
@@ -163,11 +168,11 @@ int main()
 
 	// Создаем фон
 	Texture bgT;
-	bgT.loadFromFile("./source/imgs/map.png");
+	bgT.loadFromFile("./source/imgs/map3.png");
 	Sprite bgS(bgT);
 	bgS.setOrigin(bgT.getSize().x / 2, bgT.getSize().y / 2);
 	bgS.setPosition(windowWidth / 2, windowHeight / 2);
-	bgS.setScale(1.2f, 1.2f);
+	// bgS.setScale(1.2f, 1.2f);
 
 	// Добавляем шрифты
 	Font cyberwayFont;
@@ -181,7 +186,7 @@ int main()
 
 	// Создаем текстуру и спрайт игрока
 	Texture plTexture;
-	plTexture.loadFromFile("./source/imgs/cycles.png", IntRect(13, 0, 13, 25));
+	plTexture.loadFromFile("./source/imgs/cycles.png", IntRect(0, 0, 13, 25));
 	plTexture.setSmooth(false);
 	Sprite plSprite(plTexture);
 	plSprite.setScale(scale, scale);
