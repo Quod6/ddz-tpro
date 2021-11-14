@@ -1,5 +1,4 @@
 #include <SFML/Graphics.hpp>
-#include <SFML/Graphics/Texture.hpp>
 #include <iostream>
 #include <vector>
 #include <string>
@@ -7,10 +6,53 @@
 using namespace std;
 using namespace sf;
 
-const float scale = 1.5f;
-const int windowWidth = 1280;
-const int windowHeight = 720;
-const int speed = 3;
+const float SCALE = 1.5f;
+const int WINDOW_WIDTH = 1280;
+const int WINDOW_HEIGHT = 720;
+const int SPEED = 3;
+
+class Game
+{
+private:
+	Texture bgT;
+	Texture lgT;
+	Sprite bgS;
+	Sprite lgS;
+
+public:
+	Game(int windowWidth, int windowHeight, string bgPath, string logoPath)
+	{
+		bgT.loadFromFile(bgPath);
+		bgS.setTexture(bgT);
+		bgS.setOrigin(bgT.getSize().x / 2, bgT.getSize().y / 2);
+		bgS.setPosition(windowWidth / 2, windowHeight / 2);
+		bgS.setScale((float)windowWidth / bgT.getSize().x,
+					 (float)windowHeight / bgT.getSize().y);
+
+		lgT.loadFromFile(logoPath);
+		lgS.setTexture(lgT);
+		lgS.setOrigin(lgT.getSize().x / 2, lgT.getSize().y / 2);
+		lgS.setPosition(windowWidth / 2, windowHeight / 5);
+		lgS.setScale(windowWidth / 3.0 / lgT.getSize().x,
+					 windowHeight / 4.0 / lgT.getSize().y);
+	}
+
+	void setTexture(Texture newTexture)
+	{
+		bgS.setTexture(newTexture);
+	}
+
+	Sprite getBG()
+	{
+		return bgS;
+	}
+
+	Sprite getLogo()
+	{
+		return lgS;
+	}
+
+};
 
 class Cycle
 {
@@ -18,10 +60,12 @@ private:
 	Vector3i position;
 	Vector3i oldPos;
 	bool isLaserActive;
+	int cycleSpeed;
 
 public:
-	Cycle(vector<short> position)
+	Cycle(vector<short> position, int cycleSpeed)
 	{
+		this->cycleSpeed = cycleSpeed;
 		this->position = {position[0], position[1], position[2]};
 		switch (this->position.z) {
 			case 0:
@@ -62,12 +106,12 @@ private:
 	bool collisionWalls(Sprite *cycleSprite)
 	{
 		if (position.x - cycleSprite->getTexture()->getSize().y / 2 <= 0 ||
-			position.x + cycleSprite->getTexture()->getSize().y / 2 >= windowWidth)
+			position.x + cycleSprite->getTexture()->getSize().y / 2 >= WINDOW_WIDTH)
 		{
 			return false;
 		}
 		if (position.y - cycleSprite->getTexture()->getSize().y / 2 <= 0 ||
-			position.y + cycleSprite->getTexture()->getSize().y / 2 >= windowHeight)
+			position.y + cycleSprite->getTexture()->getSize().y / 2 >= WINDOW_HEIGHT)
 		{
 			return false;
 		}
@@ -95,16 +139,16 @@ private:
 	{
 		switch (position.z) {
 			case 0:
-				position.y -= speed;
+				position.y -= cycleSpeed;
 				break;
 			case 1:
-				position.x += speed;
+				position.x += cycleSpeed;
 				break;
 			case 2:
-				position.y += speed;
+				position.y += cycleSpeed;
 				break;
 			case 3:
-				position.x -= speed;
+				position.x -= cycleSpeed;
 				break;
 		}
 	}
@@ -172,17 +216,12 @@ public:
 int main()
 {
 	// Создаем окно размером 800 на 600 и частотой обновления 60 кадров в секунду
-	RenderWindow window(VideoMode(windowWidth, windowHeight),
+	RenderWindow window(VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT),
 						"TRON", Style::Close | Style::Titlebar);
 	window.setFramerateLimit(60);
 
 	// Создаем фон
-	Texture bgT;
-	bgT.loadFromFile("./source/imgs/map2.png");
-	Sprite bgS(bgT);
-	bgS.setOrigin(bgT.getSize().x / 2, bgT.getSize().y / 2);
-	bgS.setPosition(windowWidth / 2, windowHeight / 2);
-	// bgS.setScale(1.2f, 1.2f);
+	Game gm(WINDOW_WIDTH, WINDOW_HEIGHT, "./source/imgs/bg.png", "./source/imgs/logo2.png");
 
 	// Добавляем шрифты
 	Font cyberwayFont;
@@ -191,7 +230,7 @@ int main()
 	asherpunkFont.loadFromFile("./source/fonts/AsherPunk.ttf");
 
 	// Создаем объекты игрока и действия
-	Cycle player {{500, 500, 0}};
+	Cycle player {{500, 500, 0}, SPEED};
 	Event evnt;
 
 	// Создаем текстуру и спрайт игрока
@@ -199,7 +238,7 @@ int main()
 	plTexture.loadFromFile("./source/imgs/cycles.png", IntRect(0, 0, 13, 25));
 	plTexture.setSmooth(false);
 	Sprite plSprite(plTexture);
-	plSprite.setScale(scale, scale);
+	plSprite.setScale(SCALE, SCALE);
 	plSprite.setOrigin(plSprite.getTexture()->getSize().x / 2,
 					   plSprite.getTexture()->getSize().y / 2);
 
@@ -257,7 +296,8 @@ int main()
 
 		// Очищаем окно и рисуем фон
 		window.clear();
-		window.draw(bgS);
+		window.draw(gm.getBG());
+		window.draw(gm.getLogo());
 
 		// Here is draw magick :)
 		window.draw(plSprite);
