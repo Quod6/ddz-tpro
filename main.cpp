@@ -59,8 +59,7 @@ private:
 		}
 	}
 
-	// Функция, проверяющая столкновение светоцикла со стенками
-	bool checkCollision(Sprite *cycleSprite)
+	bool collisionWalls(Sprite *cycleSprite)
 	{
 		if (position.x - cycleSprite->getTexture()->getSize().y / 2 <= 0 ||
 			position.x + cycleSprite->getTexture()->getSize().y / 2 >= windowWidth)
@@ -73,6 +72,17 @@ private:
 			return false;
 		}
 		return true;
+	}
+
+	bool collisionLaser(Sprite *cycleSprite)
+	{
+		return true;
+	}
+
+	// Функция, проверяющая столкновение светоцикла с чем-либо
+	bool checkCollision(Sprite *cycleSprite)
+	{
+		return collisionWalls(cycleSprite) & collisionLaser(cycleSprite);
 	}
 
 	// Функция, "взрывающая" светоцикл в случае столкновения
@@ -168,7 +178,7 @@ int main()
 
 	// Создаем фон
 	Texture bgT;
-	bgT.loadFromFile("./source/imgs/map3.png");
+	bgT.loadFromFile("./source/imgs/map2.png");
 	Sprite bgS(bgT);
 	bgS.setOrigin(bgT.getSize().x / 2, bgT.getSize().y / 2);
 	bgS.setPosition(windowWidth / 2, windowHeight / 2);
