@@ -13,6 +13,7 @@ const int WINDOW_HEIGHT = 720;
 const int SPEED = 3;
 float TIME = 0.f;
 int CURRENT_FRAME = 0;
+Texture emptyTexture;
 
 class Game
 {
@@ -23,8 +24,9 @@ private:
 	Sprite lgS;
 
 public:
-	Game(int windowWidth, int windowHeight, string bgPath, string logoPath)
+	Game(int windowWidth, int windowHeight, string bgPath, string logoPath, string emptyPath)
 	{
+		emptyTexture.loadFromFile(emptyPath);
 		bgT.loadFromFile(bgPath);
 		bgS.setTexture(bgT);
 		bgS.setOrigin(bgT.getSize().x / 2, bgT.getSize().y / 2);
@@ -99,7 +101,7 @@ public:
 		this->position = {position[0], position[1], position[2]};
 		oldPos = {position[0], position[1], position[2]};
 		isLaserActive = false;
-		if (isPlayer) AI.init();
+		if (!isPlayer) AI.init();
 	}
 
 private:
@@ -123,16 +125,19 @@ private:
 
 	bool collisionWalls(Sprite *cycleSprite)
 	{
-		if (position.x - 13 / 2 <= 0 ||
-			position.x + 13 >= WINDOW_WIDTH)
+		/*
+		if (position.x - 13 * SCALE / 2 <= 0 ||
+			position.x + 13 * SCALE >= WINDOW_WIDTH)
 		{
 			return false;
 		}
-		if (position.y - 13 / 2 <= 0 ||
-			position.y + 13 / 2 >= WINDOW_HEIGHT)
+		if (position.y - 13 * SCALE / 2 <= 0 ||
+			position.y + 13 * SCALE / 2 >= WINDOW_HEIGHT)
 		{
 			return false;
 		}
+		return true;
+		*/
 		return true;
 	}
 
@@ -150,16 +155,16 @@ private:
 	// Функция, "взрывающая" светоцикл в случае столкновения
 	void destroy(Sprite *cycleSprite)
 	{
-		int secondFrame = 0;
-		if (secondFrame == 7) return;
+		int drawingFrame = 0;
+		if (drawingFrame == 7) return;
 		if (CURRENT_FRAME == 0)
 		{
 			cycleSprite->setTexture(destruction);
 			cycleSprite->setTextureRect(IntRect(0, 0, 192, 192));
 			cycleSprite->setOrigin(96, 96);
 		}
-		secondFrame = CURRENT_FRAME / 4;
-		cycleSprite->setTextureRect(IntRect(192 * secondFrame, 0, 192, 192));
+		drawingFrame = CURRENT_FRAME / 4;
+		cycleSprite->setTextureRect(IntRect(192 * drawingFrame, 0, 192, 192));
 		CURRENT_FRAME += TIME / 16;
 	}
 
@@ -256,7 +261,8 @@ int main()
 	window.setFramerateLimit(60);
 
 	// Создаем фон
-	Game gm(WINDOW_WIDTH, WINDOW_HEIGHT, "./source/imgs/bg.png", "./source/imgs/logo2.png");
+	Game gm(WINDOW_WIDTH, WINDOW_HEIGHT, "./source/imgs/map3.png",
+			"./source/imgs/logo2.png", "./source/imgs/empty.png");
 
 	// Добавляем шрифты
 	Font cyberwayFont;
@@ -264,13 +270,14 @@ int main()
 	cyberwayFont.loadFromFile("./source/fonts/CyberwayRiders.ttf");
 	asherpunkFont.loadFromFile("./source/fonts/AsherPunk.ttf");
 
-	// Создаем объекты игрока и действия
+	// Создаем объекты игрока, бота и действия
 	Cycle player {true, {500, 500, 0}, SPEED};
+	Cycle bot {false, {700, 500, 0}, SPEED};
 	Event evnt;
 
 	// Создаем текстуру и спрайт игрока
 	Texture plTexture;
-	plTexture.loadFromFile("./source/imgs/cycles.png", IntRect(0, 0, 13, 25));
+	plTexture.loadFromFile("./source/imgs/cycles.png", IntRect(13, 0, 13, 25));
 	plTexture.setSmooth(false);
 	Sprite plSprite(plTexture);
 	plSprite.setScale(SCALE, SCALE);
@@ -293,8 +300,6 @@ int main()
 		// Смотрим, сколько времени прошло и обновляем таймер
 		TIME = clock.getElapsedTime().asMilliseconds();
 		clock.restart();
-
-		cout << CURRENT_FRAME << endl;
 		// Берем позицию игрока в начале игрового цикла
 		while (window.pollEvent(evnt))
 		{
