@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <random>
 
 using namespace std;
 using namespace sf;
@@ -10,6 +11,8 @@ const float SCALE = 1.5f;
 const int WINDOW_WIDTH = 1280;
 const int WINDOW_HEIGHT = 720;
 const int SPEED = 3;
+float TIME = 0.f;
+int CURRENT_FRAME = 0;
 
 class Game
 {
@@ -54,34 +57,49 @@ public:
 
 };
 
+class BotAI
+{
+private:
+
+public:
+	BotAI()
+	{
+
+	}
+
+	void init()
+	{
+
+	}
+
+	void move(Sprite *cycleSprite)
+	{
+
+	}
+};
+
 class Cycle
 {
 private:
 	Vector3i position;
 	Vector3i oldPos;
 	bool isLaserActive;
+	bool isPlayer;
 	int cycleSpeed;
+	BotAI AI;
+	Texture destruction;
+
 
 public:
-	Cycle(vector<short> position, int cycleSpeed)
+	Cycle(bool isPlayer, vector<short> position, int cycleSpeed)
 	{
+		destruction.loadFromFile("./source/imgs/destruction.png");
+		this->isPlayer = isPlayer;
 		this->cycleSpeed = cycleSpeed;
 		this->position = {position[0], position[1], position[2]};
-		switch (this->position.z) {
-			case 0:
-				oldPos = {position[0], position[1] + 30, position[2]};
-				break;
-			case 1:
-				oldPos = {position[0] - 30, position[1], position[2]};
-				break;
-			case 2:
-				oldPos = {position[0], position[1] - 30, position[2]};
-				break;
-			case 3:
-				oldPos = {position[0] + 30, position[1], position[2]};
-				break;
-		}
+		oldPos = {position[0], position[1], position[2]};
 		isLaserActive = false;
+		if (isPlayer) AI.init();
 	}
 
 private:
@@ -105,13 +123,13 @@ private:
 
 	bool collisionWalls(Sprite *cycleSprite)
 	{
-		if (position.x - cycleSprite->getTexture()->getSize().y / 2 <= 0 ||
-			position.x + cycleSprite->getTexture()->getSize().y / 2 >= WINDOW_WIDTH)
+		if (position.x - 13 / 2 <= 0 ||
+			position.x + 13 >= WINDOW_WIDTH)
 		{
 			return false;
 		}
-		if (position.y - cycleSprite->getTexture()->getSize().y / 2 <= 0 ||
-			position.y + cycleSprite->getTexture()->getSize().y / 2 >= WINDOW_HEIGHT)
+		if (position.y - 13 / 2 <= 0 ||
+			position.y + 13 / 2 >= WINDOW_HEIGHT)
 		{
 			return false;
 		}
@@ -130,9 +148,19 @@ private:
 	}
 
 	// Функция, "взрывающая" светоцикл в случае столкновения
-	void destroy()
+	void destroy(Sprite *cycleSprite)
 	{
-
+		int secondFrame = 0;
+		if (secondFrame == 7) return;
+		if (CURRENT_FRAME == 0)
+		{
+			cycleSprite->setTexture(destruction);
+			cycleSprite->setTextureRect(IntRect(0, 0, 192, 192));
+			cycleSprite->setOrigin(96, 96);
+		}
+		secondFrame = CURRENT_FRAME / 4;
+		cycleSprite->setTextureRect(IntRect(192 * secondFrame, 0, 192, 192));
+		CURRENT_FRAME += TIME / 16;
 	}
 
 	void update()
@@ -182,16 +210,23 @@ public:
 
 	void move(Sprite *cycleSprite)
 	{
-		if(checkCollision(cycleSprite))
+		if (isPlayer)
 		{
-			if (isLaserActive)  makeLaser();
-			update();
-			rotate(cycleSprite);
-			cycleSprite->setPosition(position.x, position.y);
+			if(checkCollision(cycleSprite))
+			{
+				if (isLaserActive)  makeLaser();
+				update();
+				rotate(cycleSprite);
+				cycleSprite->setPosition(position.x, position.y);
+			}
+			else
+			{
+				destroy(cycleSprite);
+			}
 		}
 		else
 		{
-			destroy();
+			AI.move(cycleSprite);
 		}
 	}
 
@@ -230,7 +265,7 @@ int main()
 	asherpunkFont.loadFromFile("./source/fonts/AsherPunk.ttf");
 
 	// Создаем объекты игрока и действия
-	Cycle player {{500, 500, 0}, SPEED};
+	Cycle player {true, {500, 500, 0}, SPEED};
 	Event evnt;
 
 	// Создаем текстуру и спрайт игрока
@@ -250,9 +285,16 @@ int main()
 
 	// Перед основным циклом обновляем старые координаты, чтобы они стали начальной точкой
 	player.updateOldPos();
+	// Создаем таймер, который будет отвечать за переключение анимаций
+	Clock clock;
 	// Основной цикл
 	while (window.isOpen())
 	{
+		// Смотрим, сколько времени прошло и обновляем таймер
+		TIME = clock.getElapsedTime().asMilliseconds();
+		clock.restart();
+
+		cout << CURRENT_FRAME << endl;
 		// Берем позицию игрока в начале игрового цикла
 		while (window.pollEvent(evnt))
 		{
