@@ -1,13 +1,11 @@
+#include <iostream>
 #include "Game.h"
-
-using namespace std;
-using namespace sf;
 
 int main()
 {
 	// Init Game engine
 	Game game;
-
+	
 	// Main loop
 	while (game.isRunning())
 	{

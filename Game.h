@@ -1,9 +1,9 @@
 #include <random>
-#include <iostream>
 #include <vector>
 #include <string>
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 using namespace std;
 using namespace sf;
@@ -15,11 +15,24 @@ class Game
 {
 private:
 	// Variables
+	// Main variables
 	RenderWindow *window;
 	Event evnt;
+
+	// Fonts
 	Font cyberwayFont;
 	Font asherpunkFont;
 
+	// All sounds
+	SoundBuffer buffer;
+	Sound sound;
+	Music phonk;
+
+	// Background
+	Texture bgTexture;
+	Sprite bgSprite;
+
+	//Functions
 	// Private functions
 	void initVariables();
 	void initWindow();
@@ -30,7 +43,7 @@ public:
 
 	const bool isRunning() const;
 
-	// Functions
+	// Public functions
 	void pollEvents();
 	void update();
 	void render();
