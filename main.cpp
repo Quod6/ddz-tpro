@@ -1,10 +1,3 @@
-// #include <random>
-// #include <iostream>
-// #include <vector>
-// #include <string>
-//
-// #include <SFML/Graphics.hpp>
-
 #include "Game.h"
 
 using namespace std;
@@ -20,7 +13,7 @@ int main()
 	{
 		//Update
 		game.update();
-		
+
 		// Render
 		game.render();
 	}
