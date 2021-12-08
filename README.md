@@ -1,6 +1,7 @@
 g++ -c main.cpp Game.cpp -ISFML/SFML/include
 
-g++ main.o Game.o -o tron -LSFML/SFML/lib -lsfml-graphics -lsfml-window -lsfml-system
+g++ main.o Game.o -o tron -LSFML/SFML/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audi
+o
 
 # Долгосрочное домашнее задание (игра "Трон")
 
