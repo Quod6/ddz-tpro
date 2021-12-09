@@ -32,13 +32,23 @@ private:
 	Texture bgTexture;
 	Sprite bgSprite;
 
+	// Player
+	Texture plTexture;
+	Sprite plSprite;
+
+	// Bots
+	Texture botsTexture;
+	vector<Sprite> botsSprites;
+
 	//Functions
 	// Private functions
 	void initVariables();
 	void initWindow();
+	void initPlayer();
+	void initBots(int count);
 public:
 	// Constructor & destructor
-	Game();
+	Game(int count);
 	virtual ~Game();
 
 	const bool isRunning() const;

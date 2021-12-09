@@ -4,8 +4,8 @@
 int main()
 {
 	// Init Game engine
-	Game game;
-	
+	Game game(1);
+
 	// Main loop
 	while (game.isRunning())
 	{
