@@ -39,6 +39,11 @@ Player::Player()
 	this->initVariables();
 }
 
+Player::~Player()
+{
+	
+}
+
 // Public functions
 void Player::move()
 {
