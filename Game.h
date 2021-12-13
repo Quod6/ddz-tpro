@@ -1,12 +1,7 @@
-#include <random>
-#include <vector>
-#include <string>
+#pragma once
 
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-
-using namespace std;
-using namespace sf;
+#include "Libs.h"
+#include "Player.h"
 
 const int WINDOW_WIDTH = 1280;
 const int WINDOW_HEIGHT = 720;
@@ -33,22 +28,15 @@ private:
 	Sprite bgSprite;
 
 	// Player
-	Texture plTexture;
-	Sprite plSprite;
-
-	// Bots
-	Texture botsTexture;
-	vector<Sprite> botsSprites;
+	Player player;
 
 	//Functions
 	// Private functions
 	void initVariables();
 	void initWindow();
-	void initPlayer();
-	void initBots(int count);
 public:
 	// Constructor & destructor
-	Game(int count);
+	Game();
 	virtual ~Game();
 
 	const bool isRunning() const;

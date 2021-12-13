@@ -3,7 +3,7 @@
 // Private functions
 void Game::initVariables()
 {
-	// Init window
+	// Init window & player
 	this->window = nullptr;
 
 	// Init fonts
@@ -36,36 +36,11 @@ void Game::initWindow()
 	this->window->setFramerateLimit(60);
 }
 
-void Game::initPlayer()
-{
-	this->plTexture.loadFromFile("./source/imgs/cycles.png", IntRect(13, 0, 13, 25));
-	this->plSprite.setTexture(this->plTexture);
-	this->plSprite.setOrigin(this->plTexture.getSize().x / 2,
-							 this->plTexture.getSize().y / 2);
-}
-
-void Game::initBots(int count)
-{
-	Sprite sprite;
-
-	this->botsTexture.loadFromFile("./source/imgs/cycles.png",
-									IntRect(0, 0, 13, 25));
-	sprite.setTexture(this->botsTexture);
-	sprite.setOrigin(this->botsTexture.getSize().x / 2,
-	 				 this->botsTexture.getSize().y / 2);
-	for (int i = 0; i < count; i++)
-	{
-		this->botsSprites.push_back(sprite);
-	}
-}
-
 // Constructor & destructor
-Game::Game(int count)
+Game::Game()
 {
 	this->initVariables();
 	this->initWindow();
-	this->initPlayer();
-	this->initBots(count);
 	this->phonk.play();
 }
 
