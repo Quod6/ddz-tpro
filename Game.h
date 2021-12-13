@@ -13,6 +13,7 @@ private:
 	// Main variables
 	RenderWindow *window;
 	Event evnt;
+	bool endGame;
 
 	// Fonts
 	Font cyberwayFont;

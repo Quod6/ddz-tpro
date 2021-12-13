@@ -3,8 +3,9 @@
 // Private functions
 void Game::initVariables()
 {
-	// Init window & player
+	// Init window & main variables
 	this->window = nullptr;
+	this->endGame = false;
 
 	// Init fonts
 	this->cyberwayFont.loadFromFile("./source/fonts/CyberwayRiders.ttf");
