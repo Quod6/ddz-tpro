@@ -28,7 +28,7 @@ private:
 	int BOT_COUNT;
 
 public:
-	Parser();
+	ConstParser();
 
 	// Parsing file
 	void parse(string filepath);

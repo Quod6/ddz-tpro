@@ -1,6 +1,6 @@
 #include "ConstParser.h"
 
-ConstParser::Parser()
+ConstParser::ConstParser()
 {
 
 }
