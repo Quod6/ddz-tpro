@@ -4,7 +4,8 @@
 // Init parser
 void Player::initParser()
 {
-	this->parser = new Parser();
+	this->parser = nullptr;
+	this->parser = new ConstParser();
 	this->parser->parse("./config.txt");
 }
 
@@ -104,7 +105,7 @@ void Player::destroy()
 Player::Player(float x, float y)
 {
 	this->initParser();
-	
+
 	// x, y - start coordinates of sprite
 	this->initVariables(x, y);
 	this->initShape();

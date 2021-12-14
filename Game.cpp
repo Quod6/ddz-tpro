@@ -1,6 +1,13 @@
 #include "Game.h"
 
 // Private functions
+void Game::initParser()
+{
+	this->parser = nullptr;
+	this->parser = new ConstParser();
+	this->parser->parse("./config.txt");
+}
+
 void Game::initVariables()
 {
 	// Init window & main variables

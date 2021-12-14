@@ -1,10 +1,9 @@
 #include "Libs.h"
-#include "Parser.h"
 
 class Player
 {
 private:
-	Parser *parser;
+	ConstParser *parser;
 	Vector3f position;
 	float speed;
 	Texture texture;

@@ -1,8 +1,5 @@
-#pragma once
-
 #include "Libs.h"
 #include "Player.h"
-#include "Parser.h"
 
 const int WINDOW_WIDTH = 1280;
 const int WINDOW_HEIGHT = 720;
@@ -32,8 +29,12 @@ private:
 	// Player
 	Player *player;
 
+	// Parser
+	ConstParser *parser;
+
 	//Functions
 	// Private functions
+	void initParser();
 	void initVariables();
 	void initPlayer();
 	void initWindow();
