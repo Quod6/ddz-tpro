@@ -3,13 +3,13 @@
 class Player
 {
 private:
-	Vector3i position;
+	Vector3f position;
 	float speed;
 	Texture texture;
 	Sprite sprite;
 
-	void initVariables();
-	void initShape(float x, float y);
+	void initVariables(float x, float y);
+	void initShape();
 
 	void destroy();
 	void setDirection();

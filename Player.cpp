@@ -2,25 +2,26 @@
 
 // Private functions
 // Init variables
-void Player::initVariables()
+void Player::initVariables(float x, float y)
 {
 	this->texture.loadFromFile("./source/imgs/cycles.png", IntRect(13, 0, 13, 25));
 	this->speed = 3.f;
+	this->position = {x, y, 0.f};
 }
 
 // Init player sprite
-void Player::initShape(float x, float y)
+void Player::initShape()
 {
 	this->sprite.setTexture(this->texture);
 	this->sprite.setOrigin(this->texture.getSize().x / 2,
 							this->texture.getSize().y / 2);
-	this->sprite.setPosition(x, y);
+	this->sprite.setPosition(this->position.x, this->position.y);
 }
 
 // change angle of sprite direction
 void Player::setDirection()
 {
-	switch (this->position.z) {
+	switch ((int)this->position.z) {
 		case 0:
 			this->sprite.setRotation(0.f);
 			break;
@@ -41,7 +42,7 @@ void Player::move()
 	if(1 == 1)
 	{
 		this->setDirection();
-		switch (this->position.z)
+		switch ((int)this->position.z)
 		{
 			case 0:
 				this->position.y -= this->speed;
@@ -93,8 +94,8 @@ Player::Player(float x, float y)
 {
 	// x, y - start coordinates of sprite
 
-	this->initVariables();
-	this->initShape(x, y);
+	this->initVariables(x, y);
+	this->initShape();
 }
 
 Player::~Player()
