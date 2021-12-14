@@ -20,6 +20,7 @@ public:
 	Player(float x = 0.f, float y = 0.f);
 	virtual ~Player();
 
+	void updateInput();
 	void update();
 	void render(RenderTarget *target);
 };

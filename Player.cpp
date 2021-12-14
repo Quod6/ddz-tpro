@@ -103,7 +103,7 @@ Player::~Player()
 }
 
 // Public functions
-void Player::update()
+void Player::updateInput()
 {
 	// Keyboadr input
 	if(Keyboard::isKeyPressed(Keyboard::A)) this->rotate(3);
@@ -112,6 +112,11 @@ void Player::update()
 	if(Keyboard::isKeyPressed(Keyboard::D)) this->rotate(1);
 
 	this->move();
+}
+
+void Player::update()
+{
+	this->updateInput();
 }
 
 void Player::render(RenderTarget *target)
