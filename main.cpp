@@ -14,11 +14,9 @@ int main()
 	{
 		//Update
 		game.update();
-		cout << "First update check" << endl;
 
 		// Render
 		game.render();
-		cout << "First render check" << endl;
 	}
 
 	return 0;
