@@ -1,11 +1,13 @@
 #include "Player.h"
 
-// Private functions
+// 		Private functions
+// Init variables
 void Player::initVariables()
 {
 	this->texture.loadFromFile("./source/imgs/cycles.png", IntRect(13, 0, 13, 25));
 }
 
+// Init player sprite
 void Player::initShape(float x, float y)
 {
 	this->sprite.setTexture(this->texture);
@@ -14,6 +16,7 @@ void Player::initShape(float x, float y)
 	this->sprite.setPosition(x, y);
 }
 
+// change angle of sprite direction
 void Player::setDirection()
 {
 	switch (this->position.z) {
@@ -32,6 +35,7 @@ void Player::setDirection()
 	}
 }
 
+// Makes BOOM
 void Player::destroy()
 {
 
@@ -78,6 +82,7 @@ void Player::move()
 	}
 }
 
+// Changing rotation of sprite
 void Player::rotate(int direction)
 {
 	// Directions:
