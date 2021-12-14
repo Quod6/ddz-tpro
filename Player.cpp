@@ -13,7 +13,7 @@ void Player::initParser()
 void Player::initVariables(float x, float y)
 {
 	this->texture.loadFromFile("./source/imgs/cycles.png",
-					IntRect(13 * this->parser->getPlayerColor(), 0, 13, 25));
+					IntRect(13 + 13 * this->parser->getPlayerColor(), 0, 13, 25));
 	this->speed = this->parser->getSpeed();
 	this->position.x = x;
 	this->position.y = y;

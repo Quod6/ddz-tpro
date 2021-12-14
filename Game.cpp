@@ -67,6 +67,7 @@ void Game::initWindow()
 // Constructor & destructor
 Game::Game()
 {
+	this->initParser();
 	this->initVariables();
 	this->initPlayer();
 	this->initWindow();
