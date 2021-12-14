@@ -74,7 +74,8 @@ void Game::pollEvents()
 void Game::update()
 {
 	this->pollEvents();
-	this->sound.play();
+
+	this->player.update();
 }
 
 void Game::render()
@@ -84,6 +85,7 @@ void Game::render()
 
 	// Draw game objects
 	this->window->draw(this->bgSprite);
+	this->player.render(this->window);
 
 	// Display new frame
 	this->window->display();
