@@ -1,11 +1,11 @@
-#include "Parser.h"
+#include "ConstParser.h"
 
-Parser::Parser()
+ConstParser::Parser()
 {
 
 }
 
-void Parser::parse(string filepath)
+void ConstParser::parse(string filepath)
 {
 	ifstream file(filepath);
 	string str;
@@ -31,42 +31,42 @@ void Parser::parse(string filepath)
 	}
 }
 
-int Parser::getWindowWidth()
+int ConstParser::getWindowWidth()
 {
 	return this->WINDOW_WIDTH;
 }
 
-int Parser::getWindowHeight()
+int ConstParser::getWindowHeight()
 {
 	return this->WINDOW_HEIGHT;
 }
 
-float Parser::getSpeed()
+float ConstParser::getSpeed()
 {
 	return this->SPEED;
 }
 
-float Parser::getMaxSpeed()
+float ConstParser::getMaxSpeed()
 {
 	return this->MAX_SPEED;
 }
 
-int Parser::getPlayerColor()
+int ConstParser::getPlayerColor()
 {
 	return this->PLAYER_COLOR;
 }
 
-int Parser::getMapIndex()
+int ConstParser::getMapIndex()
 {
 	return this->MAP_INDEX;
 }
 
-int Parser::getPlayerCount()
+int ConstParser::getPlayerCount()
 {
 	return this->PLAYER_COUNT;
 }
 
-int Parser::getBotCount()
+int ConstParser::getBotCount()
 {
 	return this->BOT_COUNT;
 }
