@@ -44,6 +44,8 @@ void Player::destroy()
 // Constructor & destructor
 Player::Player(float x, float y)
 {
+	// x, y - start coordinates of sprite
+	
 	this->initVariables();
 	this->initShape(x, y);
 }

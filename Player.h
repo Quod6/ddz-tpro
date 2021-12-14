@@ -14,7 +14,7 @@ private:
 	void setDirection();
 	void destroy();
 public:
-	Player(float x, float y);
+	Player(float x = 0.f, float y = 0.f);
 	virtual ~Player();
 
 	void move();
