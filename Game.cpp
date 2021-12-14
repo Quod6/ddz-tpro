@@ -5,6 +5,7 @@ void Game::initVariables()
 {
 	// Init window & main variables
 	this->window = nullptr;
+	this->player = nullptr;
 	this->endGame = false;
 
 	// Init fonts
@@ -30,6 +31,11 @@ void Game::initVariables()
 
 }
 
+void Game::initPlayer()
+{
+	this->player = new Player(200.f, 200.f);
+}
+
 void Game::initWindow()
 {
 	this->window = new RenderWindow(VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT),
@@ -48,6 +54,7 @@ Game::Game()
 Game::~Game()
 {
 	delete this->window;
+	delete this->player;
 }
 
 const bool Game::isRunning() const
@@ -75,7 +82,7 @@ void Game::update()
 {
 	this->pollEvents();
 
-	this->player.update();
+	this->player->update();
 }
 
 void Game::render()
@@ -85,7 +92,7 @@ void Game::render()
 
 	// Draw game objects
 	this->window->draw(this->bgSprite);
-	this->player.render(this->window);
+	this->player->render(this->window);
 
 	// Display new frame
 	this->window->display();

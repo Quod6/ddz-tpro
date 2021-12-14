@@ -29,11 +29,12 @@ private:
 	Sprite bgSprite;
 
 	// Player
-	Player player;
+	Player *player;
 
 	//Functions
 	// Private functions
 	void initVariables();
+	void initPlayer();
 	void initWindow();
 public:
 	// Constructor & destructor
