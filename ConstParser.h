@@ -3,7 +3,7 @@
 
 using namespace std;
 
-class Parser
+class ConstParser
 {
 private:
 	int WINDOW_WIDTH;
