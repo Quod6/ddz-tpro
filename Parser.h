@@ -15,5 +15,16 @@ private:
 public:
 	Parser();
 
+	// Parsing file
 	void parse(string filepath);
+
+	// Returning constants
+	int getWindowWidth();
+	int getWindowHeight();
+	float getSpeed();
+	float getMaxSpeed();
+	int getPlayerColor();
+	int getMapIndex();
+	int getPlayerCount();
+	int getBotCount();
 };
