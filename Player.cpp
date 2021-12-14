@@ -4,10 +4,14 @@
 void Player::initVariables()
 {
 	this->texture.loadFromFile("./source/imgs/cycles.png", IntRect(13, 0, 13, 25));
-	this->sprite.setTexture(texture);
+}
+
+void Player::initShape(float x, float y)
+{
+	this->sprite.setTexture(this->texture);
 	this->sprite.setOrigin(this->texture.getSize().x / 2,
 							this->texture.getSize().y / 2);
-
+	this->sprite.setPosition(x, y);
 }
 
 void Player::setDirection()
@@ -34,14 +38,15 @@ void Player::destroy()
 }
 
 // Constructor & destructor
-Player::Player()
+Player::Player(float x, float y)
 {
 	this->initVariables();
+	this->initShape(x, y);
 }
 
 Player::~Player()
 {
-	
+
 }
 
 // Public functions
@@ -88,4 +93,14 @@ void Player::rotate(int direction)
 
 	if (d1 == this->position.z || d2 == this->position.z)
 		this->position.z = direction;
+}
+
+void Player::update()
+{
+
+}
+
+void Player::render(RenderTarget *target)
+{
+	target->draw(this->sprite);
 }
