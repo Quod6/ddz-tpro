@@ -1,10 +1,11 @@
 #include "Player.h"
 
-// 		Private functions
+// Private functions
 // Init variables
 void Player::initVariables()
 {
 	this->texture.loadFromFile("./source/imgs/cycles.png", IntRect(13, 0, 13, 25));
+	this->speed = 3.f;
 }
 
 // Init player sprite
@@ -35,27 +36,6 @@ void Player::setDirection()
 	}
 }
 
-// Makes BOOM
-void Player::destroy()
-{
-
-}
-
-// Constructor & destructor
-Player::Player(float x, float y)
-{
-	// x, y - start coordinates of sprite
-	
-	this->initVariables();
-	this->initShape(x, y);
-}
-
-Player::~Player()
-{
-
-}
-
-// Public functions
 void Player::move()
 {
 	if(1 == 1)
@@ -102,9 +82,36 @@ void Player::rotate(int direction)
 		this->position.z = direction;
 }
 
-void Player::update()
+// Makes BOOM
+void Player::destroy()
 {
 
+}
+
+// Constructor & destructor
+Player::Player(float x, float y)
+{
+	// x, y - start coordinates of sprite
+
+	this->initVariables();
+	this->initShape(x, y);
+}
+
+Player::~Player()
+{
+
+}
+
+// Public functions
+void Player::update()
+{
+	// Keyboadr input
+	if(Keyboard::isKeyPressed(Keyboard::A)) this->rotate(3);
+	if(Keyboard::isKeyPressed(Keyboard::W)) this->rotate(0);
+	if(Keyboard::isKeyPressed(Keyboard::S)) this->rotate(2);
+	if(Keyboard::isKeyPressed(Keyboard::D)) this->rotate(1);
+
+	this->move();
 }
 
 void Player::render(RenderTarget *target)
