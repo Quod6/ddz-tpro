@@ -4,11 +4,13 @@
 class Player
 {
 private:
+	Parser *parser;
 	Vector3f position;
 	float speed;
 	Texture texture;
 	Sprite sprite;
 
+	void initParser();
 	void initVariables(float x, float y);
 	void initShape();
 

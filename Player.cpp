@@ -1,11 +1,19 @@
 #include "Player.h"
 
 // Private functions
+// Init parser
+void Player::initParser()
+{
+	this->parser = new Parser();
+	this->parser->parse("./config.txt");
+}
+
 // Init variables
 void Player::initVariables(float x, float y)
 {
-	this->texture.loadFromFile("./source/imgs/cycles.png", IntRect(13, 0, 13, 25));
-	this->speed = 5.f;
+	this->texture.loadFromFile("./source/imgs/cycles.png",
+					IntRect(13 * this->parser->getPlayerColor(), 0, 13, 25));
+	this->speed = this->parser->getSpeed();
 	this->position.x = x;
 	this->position.y = y;
 	this->position.z = 1.f;
@@ -95,6 +103,8 @@ void Player::destroy()
 // Constructor & destructor
 Player::Player(float x, float y)
 {
+	this->initParser();
+	
 	// x, y - start coordinates of sprite
 	this->initVariables(x, y);
 	this->initShape();
@@ -102,7 +112,7 @@ Player::Player(float x, float y)
 
 Player::~Player()
 {
-
+	delete this->parser;
 }
 
 // Public functions
