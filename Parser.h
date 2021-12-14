@@ -15,5 +15,5 @@ private:
 public:
 	Parser();
 
-	void parse(string filename);
+	void parse(string filepath);
 };

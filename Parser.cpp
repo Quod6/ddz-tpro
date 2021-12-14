@@ -5,7 +5,7 @@ Parser::Parser()
 
 }
 
-void Parser::parse(string filename)
+void Parser::parse(string filepath)
 {
-
+	ifstream file(filepath);
 }
