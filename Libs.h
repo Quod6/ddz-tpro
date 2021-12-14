@@ -1,6 +1,7 @@
+#pragma once
+
 #include <random>
 #include <vector>
-#include <string>
 #include <ctime>
 #include <iostream>
 
