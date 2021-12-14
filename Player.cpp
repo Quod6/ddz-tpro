@@ -5,10 +5,10 @@
 void Player::initVariables(float x, float y)
 {
 	this->texture.loadFromFile("./source/imgs/cycles.png", IntRect(13, 0, 13, 25));
-	this->speed = 3.f;
+	this->speed = 5.f;
 	this->position.x = x;
 	this->position.y = y;
-	this->position.z = 0.f;
+	this->position.z = 1.f;
 }
 
 // Init player sprite
@@ -18,6 +18,7 @@ void Player::initShape()
 	this->sprite.setOrigin(this->texture.getSize().x / 2,
 							this->texture.getSize().y / 2);
 	this->sprite.setPosition(this->position.x, this->position.y);
+	this->sprite.setScale(2.f, 2.f);
 }
 
 // change angle of sprite direction
