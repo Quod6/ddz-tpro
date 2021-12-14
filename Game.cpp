@@ -19,6 +19,7 @@ void Game::initVariables()
 
 	// Init music
 	this->phonk.openFromFile("./source/sounds/LVL-DEATH.ogg");
+	this->phonk.setVolume(10.f);
 
 	// Init background
 	this->bgTexture.loadFromFile("./source/imgs/map3.png");
@@ -47,6 +48,7 @@ void Game::initWindow()
 Game::Game()
 {
 	this->initVariables();
+	this->initPlayer();
 	this->initWindow();
 	this->phonk.play();
 }

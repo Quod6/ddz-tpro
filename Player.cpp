@@ -6,7 +6,9 @@ void Player::initVariables(float x, float y)
 {
 	this->texture.loadFromFile("./source/imgs/cycles.png", IntRect(13, 0, 13, 25));
 	this->speed = 3.f;
-	this->position = {x, y, 0.f};
+	this->position.x = x;
+	this->position.y = y;
+	this->position.z = 0.f;
 }
 
 // Init player sprite
@@ -93,7 +95,6 @@ void Player::destroy()
 Player::Player(float x, float y)
 {
 	// x, y - start coordinates of sprite
-
 	this->initVariables(x, y);
 	this->initShape();
 }
