@@ -29,13 +29,24 @@ void Game::initVariables()
 	this->phonk.setVolume(10.f);
 
 	// Init background
-	this->bgTexture.loadFromFile("./source/imgs/map3.png");
+
+	switch(this->parser->getMapIndex())
+	{
+		case 0:
+			this->bgTexture.loadFromFile("./source/imgs/map3.png");
+			break;
+		default:
+			this->bgTexture.loadFromFile("./source/imgs/map3.png");
+	}
 	this->bgSprite.setTexture(this->bgTexture);
 	this->bgSprite.setOrigin(this->bgTexture.getSize().x / 2,
 							 this->bgTexture.getSize().y / 2);
-	this->bgSprite.setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
-	this->bgSprite.setScale(WINDOW_WIDTH / this->bgTexture.getSize().x,
-							WINDOW_HEIGHT / this->bgTexture.getSize().y);
+	this->bgSprite.setPosition(
+		this->parser->getWindowWidth() / 2,
+		this->parser->getWindowHeight() / 2);
+	this->bgSprite.setScale(
+		this->parser->getWindowWidth() / this->bgTexture.getSize().x,
+		this->parser->getWindowHeight() / this->bgTexture.getSize().y);
 
 }
 
@@ -46,8 +57,10 @@ void Game::initPlayer()
 
 void Game::initWindow()
 {
-	this->window = new RenderWindow(VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT),
-									"TRON", Style::Close | Style::Titlebar);
+	this->window = new RenderWindow(
+		VideoMode(this->parser->getWindowWidth(), this->parser->getWindowHeight()),
+		"TRON", Style::Close | Style::Titlebar
+	);
 	this->window->setFramerateLimit(60);
 }
 
