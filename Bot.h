@@ -1,11 +1,12 @@
 #include "Lib.h"
-class Bot {
+
+class Bot : public Player
+{
+private:
+	Vector3f NextPoint;
+	void BotInitVariables(float x, float y);
 public:
-  Bot();
-  void run();
-  void move_to(int inx);
-  void lclick_to(int inx);
-  void rclick_to(int inx);
-  void drag(int from_inx,int to_inx);
-  POINT point[points_cnt];
-};
+	Bot(float x = 0.f, float y = 0.f);
+	
+
+}

@@ -1,4 +1,6 @@
-#include <windows.h>   // WinAPI
-#include <iostream>    // std::cout
-#include <unistd.h>    // sleep(), usleep()
-#include <math.h>
+#include "Bot.h"
+
+Bot::Bot(float x, float y)
+{
+	Player(x, y);
+}
