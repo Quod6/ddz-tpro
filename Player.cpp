@@ -120,13 +120,13 @@ Player::~Player()
 void Player::updateInput()
 {
 	// Keyboadr input
-	if(Keyboard::isKeyPressed(this->parser->getLeft()))
+	if(Keyboard::isKeyPressed(Keyboard::A))
 		this->rotate(3);
-	else if(Keyboard::isKeyPressed(this->parser->getUp()))
+	else if(Keyboard::isKeyPressed(Keyboard::W))
 		this->rotate(0);
-	else if(Keyboard::isKeyPressed(this->parser->getDown()))
+	else if(Keyboard::isKeyPressed(Keyboard::S))
 		this->rotate(2);
-	else if(Keyboard::isKeyPressed(this->parser->getRight()))
+	else if(Keyboard::isKeyPressed(Keyboard::D))
 		this->rotate(1);
 
 	this->move();
