@@ -59,8 +59,7 @@ void Game::initWindow()
 {
 	this->window = new RenderWindow(
 		VideoMode(this->parser->getWindowWidth(), this->parser->getWindowHeight()),
-		"TRON", Style::Close | Style::Titlebar
-	);
+		"TRON", Style::Close | Style::Titlebar);
 	this->window->setFramerateLimit(60);
 }
 

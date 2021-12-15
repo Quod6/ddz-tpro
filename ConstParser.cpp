@@ -20,7 +20,10 @@ void ConstParser::parse(string filepath)
 		token = value.substr(0, pos);
 		value.erase(0, pos + 1);
 
-		if (token == "WINDOW_WIDTH") this->WINDOW_WIDTH = stoi(value);
+		// this->CONTROL_LEFT = string_to_enum(sf::Keyboard::Key, value);
+
+		if (token == "//") continue;
+		else if (token == "WINDOW_WIDTH") this->WINDOW_WIDTH = stoi(value);
 		else if (token == "WINDOW_HEIGHT") this->WINDOW_HEIGHT = stoi(value);
 		else if (token == "SPEED") this->SPEED = stof(value);
 		else if (token == "MAX_SPEED") this->MAX_SPEED = stof(value);
@@ -28,6 +31,10 @@ void ConstParser::parse(string filepath)
 		else if (token == "MAP_INDEX") this->MAP_INDEX = stoi(value);
 		else if (token == "PLAYER_COUNT") this->PLAYER_COUNT = stoi(value);
 		else if (token == "BOT_COUNT") this->BOT_COUNT = stoi(value);
+		// else if (token == "CONTROL_UP") this->CONTROL_UP = stoi(value);
+		// else if (token == "CONTROL_DOWN") this->CONTROL_DOWN = stoi(value);
+		// else if (token == "CONTROL_RIGHT") this->CONTROL_RIGHT = stoi(value);
+		// else if (token == "CONTROL_LEFT") this->CONTROL_LEFT = stoi(value);
 	}
 }
 
@@ -69,4 +76,24 @@ int ConstParser::getPlayerCount()
 int ConstParser::getBotCount()
 {
 	return this->BOT_COUNT;
+}
+
+sf::Keyboard::Key ConstParser::getUp()
+{
+	return this->CONTROL_UP;
+}
+
+sf::Keyboard::Key ConstParser::getDown()
+{
+	return this->CONTROL_DOWN;
+}
+
+sf::Keyboard::Key ConstParser::getLeft()
+{
+	return this->CONTROL_LEFT;
+}
+
+sf::Keyboard::Key ConstParser::getRight()
+{
+	return this->CONTROL_RIGHT;
 }
