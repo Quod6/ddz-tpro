@@ -16,7 +16,7 @@ private:
 	void destroy();
 	void setDirection();
 	void move();
-	void rotate(int direction);
+	void rotate(short direction);
 
 public:
 	Player(float x = 0.f, float y = 0.f);

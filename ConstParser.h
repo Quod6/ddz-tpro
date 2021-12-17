@@ -4,8 +4,6 @@
 
 #include <SFML/Window/Keyboard.hpp>
 
-#include "enum_string.h"
-
 using namespace std;
 
 class ConstParser
@@ -30,12 +28,10 @@ private:
 	int MAP_INDEX;
 
 	/*
-		enum Key from SFML/Keyboard.hpp
+		letters - wasd
+		arrows - up, left, down, right
 	*/
-	sf::Keyboard::Key CONTROL_UP;
-	sf::Keyboard::Key CONTROL_DOWN;
-	sf::Keyboard::Key CONTROL_LEFT;
-	sf::Keyboard::Key CONTROL_RIGHT;
+	string CONTROL;
 
 	int PLAYER_COUNT;
 	int BOT_COUNT;
@@ -55,8 +51,5 @@ public:
 	int getMapIndex();
 	int getPlayerCount();
 	int getBotCount();
-	sf::Keyboard::Key getUp();
-	sf::Keyboard::Key getDown();
-	sf::Keyboard::Key getRight();
-	sf::Keyboard::Key getLeft();
+	string getControl();
 };

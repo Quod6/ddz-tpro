@@ -33,7 +33,7 @@ void Player::initShape()
 // change angle of sprite direction
 void Player::setDirection()
 {
-	switch ((int)this->position.z) {
+	switch (static_cast<int>(this->position.z)) {
 		case 0:
 			this->sprite.setRotation(0.f);
 			break;
@@ -54,7 +54,7 @@ void Player::move()
 	if(1 == 1)
 	{
 		this->setDirection();
-		switch ((int)this->position.z)
+		switch (static_cast<int>(this->position.z))
 		{
 			case 0:
 				this->position.y -= this->speed;
@@ -78,7 +78,7 @@ void Player::move()
 }
 
 // Changing rotation of sprite
-void Player::rotate(int direction)
+void Player::rotate(short direction)
 {
 	// Directions:
 	// 0 - up
@@ -91,8 +91,9 @@ void Player::rotate(int direction)
 
 	if (d1 < 0) d1 += 4;
 
-	if (d1 == this->position.z || d2 == this->position.z)
-		this->position.z = direction;
+	if (static_cast<int>(d1) == this->position.z ||
+		static_cast<int>(d2) == this->position.z)
+		this->position.z = static_cast<int>(direction);
 }
 
 // Makes BOOM
@@ -120,15 +121,28 @@ Player::~Player()
 void Player::updateInput()
 {
 	// Keyboadr input
-	if(Keyboard::isKeyPressed(Keyboard::A))
-		this->rotate(3);
-	else if(Keyboard::isKeyPressed(Keyboard::W))
-		this->rotate(0);
-	else if(Keyboard::isKeyPressed(Keyboard::S))
-		this->rotate(2);
-	else if(Keyboard::isKeyPressed(Keyboard::D))
-		this->rotate(1);
-
+	if (this->parser->getControl() == "letters")
+	{
+		if(Keyboard::isKeyPressed(Keyboard::A))
+			this->rotate(3);
+		else if(Keyboard::isKeyPressed(Keyboard::W))
+			this->rotate(0);
+		else if(Keyboard::isKeyPressed(Keyboard::S))
+			this->rotate(2);
+		else if(Keyboard::isKeyPressed(Keyboard::D))
+			this->rotate(1);
+	}
+	else
+	{
+		if(Keyboard::isKeyPressed(Keyboard::Left))
+			this->rotate(3);
+		else if(Keyboard::isKeyPressed(Keyboard::Up))
+			this->rotate(0);
+		else if(Keyboard::isKeyPressed(Keyboard::Down))
+			this->rotate(2);
+		else if(Keyboard::isKeyPressed(Keyboard::Right))
+			this->rotate(1);
+	}
 	this->move();
 }
 

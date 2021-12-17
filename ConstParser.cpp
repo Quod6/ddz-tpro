@@ -20,8 +20,6 @@ void ConstParser::parse(string filepath)
 		token = value.substr(0, pos);
 		value.erase(0, pos + 1);
 
-		// this->CONTROL_LEFT = string_to_enum(sf::Keyboard::Key, value);
-
 		if (token == "//") continue;
 		else if (token == "WINDOW_WIDTH") this->WINDOW_WIDTH = stoi(value);
 		else if (token == "WINDOW_HEIGHT") this->WINDOW_HEIGHT = stoi(value);
@@ -31,10 +29,7 @@ void ConstParser::parse(string filepath)
 		else if (token == "MAP_INDEX") this->MAP_INDEX = stoi(value);
 		else if (token == "PLAYER_COUNT") this->PLAYER_COUNT = stoi(value);
 		else if (token == "BOT_COUNT") this->BOT_COUNT = stoi(value);
-		// else if (token == "CONTROL_UP") this->CONTROL_UP = stoi(value);
-		// else if (token == "CONTROL_DOWN") this->CONTROL_DOWN = stoi(value);
-		// else if (token == "CONTROL_RIGHT") this->CONTROL_RIGHT = stoi(value);
-		// else if (token == "CONTROL_LEFT") this->CONTROL_LEFT = stoi(value);
+		else if (token == "CONTROL") this->CONTROL = value;
 	}
 }
 
@@ -78,22 +73,7 @@ int ConstParser::getBotCount()
 	return this->BOT_COUNT;
 }
 
-sf::Keyboard::Key ConstParser::getUp()
+string ConstParser::getControl()
 {
-	return this->CONTROL_UP;
-}
-
-sf::Keyboard::Key ConstParser::getDown()
-{
-	return this->CONTROL_DOWN;
-}
-
-sf::Keyboard::Key ConstParser::getLeft()
-{
-	return this->CONTROL_LEFT;
-}
-
-sf::Keyboard::Key ConstParser::getRight()
-{
-	return this->CONTROL_RIGHT;
+	return this->CONTROL;
 }
