@@ -1,3 +1,4 @@
+#include <experimental/random>
 #include "Libs.h"
 
 class Bot
@@ -9,6 +10,8 @@ private:
 	float speed;
 	Texture texture;
 	Sprite sprite;
+
+	int randInt(int min, int max);
 
 	void initParser();
 	void initNewNextPos();
