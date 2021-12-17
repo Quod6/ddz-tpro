@@ -4,7 +4,7 @@
 int main()
 {
 	// Init random seed
-	srand(static_cast<unsigned>(time(0)));
+	srand(time(nullptr));
 
 	// Init Game engine
 	Game game;
