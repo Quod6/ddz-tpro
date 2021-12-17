@@ -55,6 +55,16 @@ void Game::initPlayer()
 	this->player = new Player(200.f, 200.f);
 }
 
+void Game::initBots()
+{
+	for (int i = 0; i < this->parser->getBotCount(); i++)
+	{
+		this->bots.push_back(new Bot(
+			randInt(0, this->parser->getWindowWidth()),
+			randInt(0, this->parser->getWindowHeight())));
+	}
+}
+
 void Game::initWindow()
 {
 	this->window = new RenderWindow(
@@ -105,6 +115,8 @@ void Game::update()
 	this->pollEvents();
 
 	this->player->update();
+	for (int i = 0; i < this->parser->getBotCount(); i++)
+		this->bots[i]->update();
 }
 
 void Game::render()
@@ -115,6 +127,8 @@ void Game::render()
 	// Draw game objects
 	this->window->draw(this->bgSprite);
 	this->player->render(this->window);
+	for (int i = 0; i < this->parser->getBotCount(); i++)
+		this->bots[i]->render(this->window);
 
 	// Display new frame
 	this->window->display();

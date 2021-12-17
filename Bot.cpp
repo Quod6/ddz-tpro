@@ -1,12 +1,6 @@
 #include "Bot.h"
 
 // Private functions
-// random
-int Bot::randInt(int min, int max)
-{
-	return experimental::randint(min, max);
-}
-
 // Init parser
 void Bot::initParser()
 {
