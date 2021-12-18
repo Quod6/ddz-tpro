@@ -70,7 +70,7 @@ void Game::initWindow()
 	this->window = new RenderWindow(
 		VideoMode(this->parser->getWindowWidth(), this->parser->getWindowHeight()),
 		"TRON", Style::Close | Style::Titlebar);
-	this->window->setFramerateLimit(60);
+	this->window->setFramerateLimit(180);
 }
 
 // Constructor & destructor
@@ -79,6 +79,7 @@ Game::Game()
 	this->initParser();
 	this->initVariables();
 	this->initPlayer();
+	this->initBots();
 	this->initWindow();
 	this->phonk.play();
 }

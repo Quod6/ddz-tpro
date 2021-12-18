@@ -4,7 +4,7 @@
 int main()
 {
 	// Init random seed
-	srand(time(nullptr));
+	srand(time(NULL));
 
 	// Init Game engine
 	Game game;

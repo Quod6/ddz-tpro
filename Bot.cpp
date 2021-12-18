@@ -12,8 +12,10 @@ void Bot::initParser()
 // Init next newPosition
 void Bot::initNewNextPos()
 {
-	int s = static_cast<int>(this->parser->getSpeed());
+	int s = static_cast<int>(this->speed);
 	int i;
+	cout << "Old pos: " << this->position.x << ' ' << this->position.y;
+	cout << ' ' << this->position.z << endl;
 	switch (static_cast<int>(this->position.z))
 	{
 		case 0:
@@ -47,6 +49,7 @@ void Bot::initNewNextPos()
 			else this->newPosition.z = 0;
 			break;
 	}
+	cout << "New pos: " << this->newPosition.x << ' ' << this->newPosition.y << endl;
 }
 
 // Init variables
@@ -162,8 +165,8 @@ Bot::~Bot()
 // Public functions
 void Bot::updateInput()
 {
-	if (this->position.x == this->newPosition.x &&
-	 	this->position.y == this->newPosition.y)
+	cout << this->position.y << endl;
+	if (this->position.x == this->newPosition.x && this->position.y == this->newPosition.y)
 	{
 		this->rotate(this->newPosition.z);
 		this->initNewNextPos();

@@ -1,6 +1,5 @@
 #include <fstream>
 #include <string>
-#include <iostream>
 
 #include <SFML/Window/Keyboard.hpp>
 
