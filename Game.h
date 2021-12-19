@@ -52,6 +52,6 @@ public:
 
 	// Public functions
 	void pollEvents();
-	void update();
+	void update(float dt);
 	void render();
 };

@@ -15,16 +15,16 @@ private:
 	void initVariables(float x, float y, float z);
 	void initShape();
 
-	void destroy();
+	void destroy(float dt);
 	void setDirection();
-	void move();
+	void move(float dt);
 	void rotate(short direction);
 
 public:
 	Bot(float x = 0.f, float y = 0.f, float z = 0.f);
 	virtual ~Bot();
 
-	void updateInput();
-	void update();
+	void updateInput(float dt);
+	void update(float dt);
 	void render(RenderTarget *target);
 };

@@ -3,6 +3,10 @@
 
 int main()
 {
+	// Timer
+	Clock clock;
+	float TIME;
+
 	// Init random seed
 	srand(time(NULL));
 
@@ -12,8 +16,9 @@ int main()
 	// Main loop
 	while (game.isRunning())
 	{
+		TIME = clock.getElapsedTime().asMilliseconds();
 		//Update
-		game.update();
+		game.update(TIME);
 
 		// Render
 		game.render();

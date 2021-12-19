@@ -49,7 +49,7 @@ void Player::setDirection()
 	}
 }
 
-void Player::move()
+void Player::move(float dt)
 {
 	if(1 == 1)
 	{
@@ -73,7 +73,7 @@ void Player::move()
 	}
 	else
 	{
-		this->destroy();
+		this->destroy(dt);
 	}
 }
 
@@ -97,7 +97,13 @@ void Player::rotate(short direction)
 }
 
 // Makes BOOM
-void Player::destroy()
+void Player::destroy(float dt)
+{
+
+}
+
+// Makes laser
+void Player::makeLaser()
 {
 
 }
@@ -118,7 +124,7 @@ Player::~Player()
 }
 
 // Public functions
-void Player::updateInput()
+void Player::updateInput(float dt)
 {
 	// Keyboadr input
 	if (this->parser->getControl() == "letters")
@@ -143,12 +149,13 @@ void Player::updateInput()
 		else if(Keyboard::isKeyPressed(Keyboard::Right))
 			this->rotate(1);
 	}
-	this->move();
+	this->move(dt);
 }
 
-void Player::update()
+void Player::update(float dt)
 {
-	this->updateInput();
+	this->updateInput(dt);
+	this->makeLaser();
 }
 
 void Player::render(RenderTarget *target)

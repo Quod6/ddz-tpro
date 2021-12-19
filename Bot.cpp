@@ -91,7 +91,7 @@ void Bot::setDirection()
 	}
 }
 
-void Bot::move()
+void Bot::move(float dt)
 {
 	if(1 == 1)
 	{
@@ -115,7 +115,7 @@ void Bot::move()
 	}
 	else
 	{
-		this->destroy();
+		this->destroy(dt);
 	}
 }
 
@@ -139,7 +139,7 @@ void Bot::rotate(short direction)
 }
 
 // Makes BOOM
-void Bot::destroy()
+void Bot::destroy(float dt)
 {
 
 }
@@ -160,7 +160,7 @@ Bot::~Bot()
 }
 
 // Public functions
-void Bot::updateInput()
+void Bot::updateInput(float dt)
 {
 	if (this->position.x == this->newPosition.x && this->position.y == this->newPosition.y)
 	{
@@ -168,12 +168,12 @@ void Bot::updateInput()
 		this->initNewNextPos();
 	}
 
-	this->move();
+	this->move(dt);
 }
 
-void Bot::update()
+void Bot::update(float dt)
 {
-	this->updateInput();
+	this->updateInput(dt);
 }
 
 void Bot::render(RenderTarget *target)

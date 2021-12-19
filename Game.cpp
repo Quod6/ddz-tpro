@@ -111,13 +111,13 @@ void Game::pollEvents()
 	}
 }
 
-void Game::update()
+void Game::update(float dt)
 {
 	this->pollEvents();
 
-	this->player->update();
+	this->player->update(dt);
 	for (int i = 0; i < this->parser->getBotCount(); i++)
-		this->bots[i]->update();
+		this->bots[i]->update(dt);
 }
 
 void Game::render()
