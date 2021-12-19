@@ -8,7 +8,7 @@ int main()
 	float TIME;
 
 	// Init random seed
-	srand(time(NULL));
+	reseed(time(0));
 
 	// Init Game engine
 	Game game;
@@ -17,6 +17,7 @@ int main()
 	while (game.isRunning())
 	{
 		TIME = clock.getElapsedTime().asMilliseconds();
+
 		//Update
 		game.update(TIME);
 
