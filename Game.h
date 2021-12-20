@@ -1,5 +1,4 @@
 #include "Libs.h"
-#include "Player.h"
 #include "Bot.h"
 
 const int WINDOW_WIDTH = 1280;

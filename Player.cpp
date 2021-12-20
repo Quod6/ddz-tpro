@@ -10,14 +10,14 @@ void Player::initParser()
 }
 
 // Init variables
-void Player::initVariables(float x, float y)
+void Player::initVariables(float x, float y, float z)
 {
 	this->texture.loadFromFile("./source/imgs/cycles.png",
 					IntRect(13 + 13 * this->parser->getPlayerColor(), 0, 13, 25));
 	this->speed = this->parser->getSpeed();
 	this->position.x = x;
 	this->position.y = y;
-	this->position.z = 1.f;
+	this->position.z = z;
 }
 
 // Init player sprite
@@ -109,12 +109,12 @@ void Player::makeLaser()
 }
 
 // Constructor & destructor
-Player::Player(float x, float y)
+Player::Player(float x, float y, float z)
 {
 	this->initParser();
 
 	// x, y - start coordinates of sprite
-	this->initVariables(x, y);
+	this->initVariables(x, y, z);
 	this->initShape();
 }
 

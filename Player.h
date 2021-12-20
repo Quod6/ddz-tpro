@@ -2,15 +2,15 @@
 
 class Player
 {
-private:
-	ConstParser *parser;
+protected:
+	ConstParser * parser;
 	Vector3f position;
 	float speed;
 	Texture texture;
 	Sprite sprite;
 
 	void initParser();
-	void initVariables(float x, float y);
+	void initVariables(float x, float y, float z);
 	void initShape();
 
 	void destroy(float dt);
@@ -20,7 +20,7 @@ private:
 	void makeLaser();
 
 public:
-	Player(float x = 0.f, float y = 0.f);
+	Player(float x = 0.f, float y = 0.f, float z = 1.f);
 	virtual ~Player();
 
 	void updateInput(float dt);
