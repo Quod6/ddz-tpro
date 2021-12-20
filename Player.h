@@ -1,12 +1,12 @@
 #include "Libs.h"
-// #include "Laser.h"
+#include "Laser.h"
 
 class Player
 {
 protected:
 	bool isPlayer;
 	ConstParser * parser;
-	// Laser * laser;
+	Laser * laser;
 	Vector3f position;
 	Vector3f newPosition;
 	float speed;
@@ -16,7 +16,7 @@ protected:
 	void initParser();
 	void initNewNextPos();
 	void initVariables(bool isPlayer, float x, float y, float z);
-	// void initLaser();
+	void initLaser();
 	void initShape();
 
 	void destroy(float dt);

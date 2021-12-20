@@ -68,14 +68,14 @@ void Player::initVariables(bool isPlayer, float x, float y, float z)
 	this->position.y = y;
 	this->position.z = z;
 }
-/*
+
 // Init laser
 void Player::initLaser()
 {
-		this->laser = nullptr;
-		this->laser = new Laser(this->position);
+	this->laser = nullptr;
+	this->laser = new Laser(&this->sprite, this->isPlayer);
 }
-*/
+
 // Init player sprite
 void Player::initShape()
 {
@@ -172,7 +172,7 @@ Player::Player(bool isPlayer, float x, float y, float z)
 	// x, y - start coordinates of sprite
 	this->initVariables(isPlayer, x, y, z);
 	this->initShape();
-	// this->initLaser();
+	this->initLaser();
 	if (!this->isPlayer) this->initNewNextPos();
 }
 
@@ -225,10 +225,11 @@ void Player::updateInput(float dt)
 void Player::update(float dt)
 {
 	this->updateInput(dt);
-	this->makeLaser();
+	this->laser->update(&this->sprite);
 }
 
 void Player::render(RenderTarget *target)
 {
 	target->draw(this->sprite);
+	this->laser->render(target);
 }

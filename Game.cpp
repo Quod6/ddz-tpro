@@ -25,8 +25,8 @@ void Game::initVariables()
 	this->sound.setVolume(5.f);
 
 	// Init music
-	this->phonk.openFromFile("./source/sounds/CYBERSITI.ogg");
-	this->phonk.setVolume(10.f);
+	this->phonk.openFromFile("./source/sounds/CYBERSITY.ogg");
+	this->phonk.setVolume(20.f);
 
 	// Init background
 
@@ -53,7 +53,7 @@ void Game::initVariables()
 void Game::initPlayer()
 {
 	int s = static_cast<int>(this->parser->getSpeed());
-	this->player = new Player(
+	this->player = new Player(true,
 		static_cast<float>(randInt(10*s, this->parser->getWindowWidth()-10*s)),
 		static_cast<float>(randInt(10*s, this->parser->getWindowHeight()-10*s)),
 		static_cast<float>(randInt(0, 3)));
@@ -63,7 +63,7 @@ void Game::initBots()
 {
 	for (int i = 0; i < this->parser->getBotCount(); i++)
 	{
-		this->bots.push_back(new Bot(
+		this->bots.push_back(new Player(false,
 			randInt(0, this->parser->getWindowWidth()),
 			randInt(0, this->parser->getWindowHeight())));
 	}

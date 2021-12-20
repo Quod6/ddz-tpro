@@ -1,5 +1,5 @@
 #include "Libs.h"
-#include "Bot.h"
+#include "Player.h"
 
 const int WINDOW_WIDTH = 1280;
 const int WINDOW_HEIGHT = 720;
@@ -30,7 +30,7 @@ private:
 	Player *player;
 
 	// Bots
-	vector<Bot *> bots;
+	vector<Player *> bots;
 
 	// Parser
 	ConstParser *parser;
