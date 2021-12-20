@@ -9,17 +9,73 @@ void Player::initParser()
 	this->parser->parse("./config.txt");
 }
 
-// Init variables
-void Player::initVariables(float x, float y, float z)
+// Init next newPosition
+void Player::initNewNextPos()
 {
-	this->texture.loadFromFile("./source/imgs/cycles.png",
-					IntRect(13 + 13 * this->parser->getPlayerColor(), 0, 13, 25));
+	int s = static_cast<int>(this->speed);
+	int i;
+	switch (static_cast<int>(this->position.z))
+	{
+		case 0:
+			this->newPosition.x = this->position.x;
+			this->newPosition.y = randInt(-2 * s, this->position.y - 2 * s);
+			i = randInt(0, 1);
+			if (i == 0) this->newPosition.z = 3;
+			else this->newPosition.z = 1;
+			break;
+		case 1:
+			this->newPosition.x = randInt(this->position.x + 2 * s,
+				this->parser->getWindowWidth() + 2 * s);
+			this->newPosition.y = this->position.y;
+			i = randInt(0, 1);
+			if (i == 0) this->newPosition.z = 0;
+			else this->newPosition.z = 2;
+			break;
+		case 2:
+			this->newPosition.x = this->position.x;
+			this->newPosition.y = randInt(this->position.y + 2 * s,
+				this->parser->getWindowHeight() + 2 * s);
+			i = randInt(0, 1);
+			if (i == 0) this->newPosition.z = 1;
+			else this->newPosition.z = 3;
+			break;
+		case 3:
+			this->newPosition.x = randInt(-2 * s, this->position.x - 2 * s);
+			this->newPosition.y = this->position.y;
+			i = randInt(0, 1);
+			if (i == 0) this->newPosition.z = 2;
+			else this->newPosition.z = 0;
+			break;
+	}
+}
+
+// Init variables
+void Player::initVariables(bool isPlayer, float x, float y, float z)
+{
+	if (isPlayer)
+	{
+		this->texture.loadFromFile("./source/imgs/cycles.png",
+			IntRect(13 + 13 * this->parser->getPlayerColor(), 0, 13, 25));
+	}
+	else
+	{
+		this->texture.loadFromFile("./source/imgs/cycles.png",
+			IntRect(0, 0, 13, 25));
+	}
+	this->isPlayer = isPlayer;
 	this->speed = this->parser->getSpeed();
 	this->position.x = x;
 	this->position.y = y;
 	this->position.z = z;
 }
-
+/*
+// Init laser
+void Player::initLaser()
+{
+		this->laser = nullptr;
+		this->laser = new Laser(this->position);
+}
+*/
 // Init player sprite
 void Player::initShape()
 {
@@ -109,13 +165,15 @@ void Player::makeLaser()
 }
 
 // Constructor & destructor
-Player::Player(float x, float y, float z)
+Player::Player(bool isPlayer, float x, float y, float z)
 {
 	this->initParser();
 
 	// x, y - start coordinates of sprite
-	this->initVariables(x, y, z);
+	this->initVariables(isPlayer, x, y, z);
 	this->initShape();
+	// this->initLaser();
+	if (!this->isPlayer) this->initNewNextPos();
 }
 
 Player::~Player()
@@ -126,28 +184,40 @@ Player::~Player()
 // Public functions
 void Player::updateInput(float dt)
 {
-	// Keyboadr input
-	if (this->parser->getControl() == "letters")
+	if (this->isPlayer)
 	{
-		if(Keyboard::isKeyPressed(Keyboard::A))
-			this->rotate(3);
-		else if(Keyboard::isKeyPressed(Keyboard::W))
-			this->rotate(0);
-		else if(Keyboard::isKeyPressed(Keyboard::S))
-			this->rotate(2);
-		else if(Keyboard::isKeyPressed(Keyboard::D))
-			this->rotate(1);
+		// Keyboadr input
+		if (this->parser->getControl() == "letters")
+		{
+			if(Keyboard::isKeyPressed(Keyboard::A))
+				this->rotate(3);
+			else if(Keyboard::isKeyPressed(Keyboard::W))
+				this->rotate(0);
+			else if(Keyboard::isKeyPressed(Keyboard::S))
+				this->rotate(2);
+			else if(Keyboard::isKeyPressed(Keyboard::D))
+				this->rotate(1);
+		}
+		else
+		{
+			if(Keyboard::isKeyPressed(Keyboard::Left))
+				this->rotate(3);
+			else if(Keyboard::isKeyPressed(Keyboard::Up))
+				this->rotate(0);
+			else if(Keyboard::isKeyPressed(Keyboard::Down))
+				this->rotate(2);
+			else if(Keyboard::isKeyPressed(Keyboard::Right))
+				this->rotate(1);
+		}
 	}
 	else
 	{
-		if(Keyboard::isKeyPressed(Keyboard::Left))
-			this->rotate(3);
-		else if(Keyboard::isKeyPressed(Keyboard::Up))
-			this->rotate(0);
-		else if(Keyboard::isKeyPressed(Keyboard::Down))
-			this->rotate(2);
-		else if(Keyboard::isKeyPressed(Keyboard::Right))
-			this->rotate(1);
+		if (this->position.x == this->newPosition.x &&
+			this->position.y == this->newPosition.y)
+		{
+			this->rotate(this->newPosition.z);
+			this->initNewNextPos();
+		}
 	}
 	this->move(dt);
 }
