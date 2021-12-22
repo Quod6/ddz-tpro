@@ -14,16 +14,15 @@ protected:
 	Sprite sprite;
 
 	void initParser();
+	void initLaser();
 	void initNewNextPos();
 	void initVariables(bool isPlayer, float x, float y, float z);
-	void initLaser();
 	void initShape();
 
 	void destroy(float dt);
 	void setDirection();
 	void move(float dt);
 	void rotate(short direction);
-	void makeLaser();
 
 public:
 	Player(bool isPlayer, float x = 0.f, float y = 0.f, float z = 1.f);

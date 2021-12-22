@@ -9,6 +9,13 @@ void Player::initParser()
 	this->parser->parse("./config.txt");
 }
 
+// Init laser
+void Player::initLaser()
+{
+	this->laser = nullptr;
+	this->laser = new Laser(&this->sprite, isPlayer);
+}
+
 // Init next newPosition
 void Player::initNewNextPos()
 {
@@ -67,13 +74,6 @@ void Player::initVariables(bool isPlayer, float x, float y, float z)
 	this->position.x = x;
 	this->position.y = y;
 	this->position.z = z;
-}
-
-// Init laser
-void Player::initLaser()
-{
-	this->laser = nullptr;
-	this->laser = new Laser(&this->sprite, this->isPlayer);
 }
 
 // Init player sprite
@@ -158,27 +158,21 @@ void Player::destroy(float dt)
 
 }
 
-// Makes laser
-void Player::makeLaser()
-{
-
-}
-
 // Constructor & destructor
 Player::Player(bool isPlayer, float x, float y, float z)
 {
 	this->initParser();
-
+	this->initLaser();
 	// x, y - start coordinates of sprite
 	this->initVariables(isPlayer, x, y, z);
 	this->initShape();
-	this->initLaser();
 	if (!this->isPlayer) this->initNewNextPos();
 }
 
 Player::~Player()
 {
 	delete this->parser;
+	delete this->laser;
 }
 
 // Public functions
