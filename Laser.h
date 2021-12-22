@@ -5,6 +5,8 @@ class Laser
 private:
 	ConstParser *parser;
 	vector<Vector3f> positions;
+	float oldAngle;
+	vector<Sprite> lines;
 	vector<Sprite> sprites;
 	Texture texture;
 	Sprite sprite;

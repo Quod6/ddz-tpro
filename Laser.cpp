@@ -11,6 +11,8 @@ void Laser::initParser()
 // Init variables
 void Laser::initVariables(Sprite * sprite, bool isPlayer)
 {
+	this->oldAngle = sprite->getRotation();
+	this->lines.clear();
 	this->positions.clear();
 	this->sprites.clear();
 
@@ -34,10 +36,10 @@ void Laser::initVariables(Sprite * sprite, bool isPlayer)
 // Constructor
 Laser::Laser(Sprite * sprite, bool isPlayer)
 {
+	this->initParser();
 	this->initVariables(sprite, isPlayer);
 }
 
-// Destructor
 Laser::~Laser()
 {
 
@@ -46,6 +48,37 @@ Laser::~Laser()
 // Update
 void Laser::update(Sprite * sprite)
 {
+	if ((int)sprite->getRotation() != (int)this->oldAngle && this->sprites.size() != 0)
+	{
+		Sprite lineSprite;
+		lineSprite.setTexture(this->texture);
+
+		lineSprite.setScale((float)this->sprites.size(), 1.f);
+
+		lineSprite.setOrigin(lineSprite.getScale().x / 2,
+			lineSprite.getScale().y / 2);
+
+		float x = 0;
+		float y = 0;
+
+		x = this->sprites[0].getPosition().x +
+			this->sprites[this->sprites.size() - 1].getPosition().x;
+
+		y = this->sprites[0].getPosition().y +
+			this->sprites[this->sprites.size() - 1].getPosition().y;
+
+		x = x / 2;
+		y = y / 2;
+
+		lineSprite.setPosition(x, y);
+
+		lineSprite.setRotation(this->oldAngle);
+
+		this->lines.push_back(lineSprite);
+		this->sprites.clear();
+		this->oldAngle = sprite->getRotation();
+	}
+
 	Vector3f cyclePos;
 	switch((int)sprite->getRotation())
 	{
@@ -87,6 +120,8 @@ void Laser::update(Sprite * sprite)
 // Render
 void Laser::render(RenderTarget *target)
 {
+	for(unsigned i = 0; i < this->lines.size(); i++)
+		target->draw(this->lines[i]);
 	for(unsigned i = 0; i < this->sprites.size(); i++)
 		target->draw(this->sprites[i]);
 }
