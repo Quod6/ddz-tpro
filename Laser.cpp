@@ -11,6 +11,8 @@ void Laser::initParser()
 // Init variables
 void Laser::initVariables(Sprite * sprite, bool isPlayer)
 {
+	this->oldPos = sprite->getPosition();
+	Texture texture;
 	this->oldAngle = sprite->getRotation();
 	this->lines.clear();
 	this->positions.clear();
@@ -18,19 +20,33 @@ void Laser::initVariables(Sprite * sprite, bool isPlayer)
 
 	if (isPlayer)
 	{
-		this->texture.loadFromFile("./source/imgs/laser.png",
-			IntRect(1 + this->parser->getPlayerColor(), 0, 1, 4));
+		this->textureV.loadFromFile("./source/imgs/laserV.png",
+			IntRect(1 + this->parser->getPlayerColor(), 0, 1280, 4));
+		this->textureH.loadFromFile("./source/imgs/laserH.png",
+			IntRect(0, 1 + this->parser->getPlayerColor(), 4, 720));
 	}
 	else
 	{
-		this->texture.loadFromFile("./source/imgs/laser.png",
-			IntRect(0, 0, 1, 4));
+		this->textureV.loadFromFile("./source/imgs/laserV.png",
+			IntRect(0, 0, 1280, 4));
+		this->textureH.loadFromFile("./source/imgs/laserH.png",
+			IntRect(0, 0, 4, 720));
 	}
 
-	this->sprite.setTexture(this->texture);
-	this->sprite.setOrigin(this->texture.getSize().x / 2,
-		this->texture.getSize().y / 2);
-	this->sprite.setScale(2.f, 2.f);
+	switch ((int)sprite->getRotation()) {
+		case 0:
+			this->sprite.setTexture(this->textureV);
+			break;
+		case 90:
+			this->sprite.setTexture(this->textureH);
+			break;
+		case 180:
+			this->sprite.setTexture(this->textureV);
+			break;
+		case 270:
+			this->sprite.setTexture(this->textureH);
+			break;
+	}
 }
 
 // Constructor
@@ -48,73 +64,55 @@ Laser::~Laser()
 // Update
 void Laser::update(Sprite * sprite)
 {
-	if ((int)sprite->getRotation() != (int)this->oldAngle && this->sprites.size() != 0)
+	if (this->oldAngle == sprite->getRotation())
 	{
-		Sprite lineSprite;
-		lineSprite.setTexture(this->texture);
+		float dx, dy;
+		dx = sprite->getPosition().x - this->oldPos.x;
+		dy = sprite->getPosition().y - this->oldPos.y;
 
-		lineSprite.setScale((float)this->sprites.size(), 1.f);
+		if (dx == 0)
+		{
+			if (dy < 0)
+				this->sprite.setRotation(180.f);
+			else
+				this->sprite.setRotation(0.f);
 
-		lineSprite.setOrigin(lineSprite.getScale().x / 2,
-			lineSprite.getScale().y / 2);
+			this->sprite.setTextureRect({0, 0,
+				4, abs((int)dy)});
+		}
+		if (dy == 0)
+		{
+			if (dx < 0)
+				this->sprite.setRotation(180.f);
+			else
+				this->sprite.setRotation(0.f);
+				
+			this->sprite.setTextureRect({0, 0,
+				abs((int)dx), 4});
+		}
 
-		float x = 0;
-		float y = 0;
-
-		x = this->sprites[0].getPosition().x +
-			this->sprites[this->sprites.size() - 1].getPosition().x;
-
-		y = this->sprites[0].getPosition().y +
-			this->sprites[this->sprites.size() - 1].getPosition().y;
-
-		x = x / 2;
-		y = y / 2;
-
-		lineSprite.setPosition(x, y);
-
-		lineSprite.setRotation(this->oldAngle);
-
-		this->lines.push_back(lineSprite);
-		this->sprites.clear();
+		this->sprite.setPosition(this->oldPos.x, this->oldPos.y);
+		this->lines.push_back(this->sprite);
+	}
+	else
+	{
+		switch ((int)sprite->getRotation()) {
+			case 0:
+				this->sprite.setTexture(this->textureV);
+				break;
+			case 180:
+				this->sprite.setTexture(this->textureV);
+				break;
+			case 270:
+				this->sprite.setTexture(this->textureH);
+				break;
+			case 90:
+				this->sprite.setTexture(this->textureH);
+				break;
+		}
+		this->oldPos = sprite->getPosition();
 		this->oldAngle = sprite->getRotation();
 	}
-
-	Vector3f cyclePos;
-	switch((int)sprite->getRotation())
-	{
-		case 0:
-			cyclePos.x = sprite->getPosition().x;
-			cyclePos.y = sprite->getPosition().y +
-						sprite->getTexture()->getSize().y / 2 +
-						this->parser->getSpeed();
-			cyclePos.z = 0;
-			break;
-		case 90:
-			cyclePos.x = sprite->getPosition().x  -
-						sprite->getTexture()->getSize().y / 2 -
-						this->parser->getSpeed();
-			cyclePos.y = sprite->getPosition().y;
-			cyclePos.z = 1;
-			break;
-		case 180:
-			cyclePos.x = sprite->getPosition().x;
-			cyclePos.y = sprite->getPosition().y -
-						sprite->getTexture()->getSize().y / 2 -
-						this->parser->getSpeed();
-			cyclePos.z = 2;
-			break;
-		case 270:
-			cyclePos.x = sprite->getPosition().x  +
-						sprite->getTexture()->getSize().y / 2 +
-						this->parser->getSpeed();
-			cyclePos.y = sprite->getPosition().y;
-			cyclePos.z = 3;
-			break;
-	}
-	this->positions.push_back(cyclePos);
-	this->sprite.setPosition(cyclePos.x, cyclePos.y);
-	this->sprite.setRotation(sprite->getRotation());
-	this->sprites.push_back(this->sprite);
 }
 
 // Render
