@@ -11,6 +11,38 @@ using namespace sf;
 using namespace std;
 
 
+
+string color_str_1 = "";
+string name_str_1 = "";
+string keymap_str_1 = "";
+string color_str_2 = "";
+string name_str_2 = "";
+string keymap_str_2 = "";
+string number = "";
+string color_str = "";
+string name_str = "";
+string number_bots_str = "";
+string keymap_str = "";
+ofstream Settings;
+string PlayerNameDynamic="";
+string PlayerName="";
+Text PlayerNameInput;
+string Number_of_enemiesDynamic = "";
+Text Number_of_enemiesInput;
+string PlayerNameDynamic_1 = "";
+string PlayerName_1 = "";
+Text PlayerNameInput_1;
+string Number_of_enemiesDynamic_1 = "";
+Text Number_of_enemiesInput_1;
+string PlayerNameDynamic_2 = "";
+string PlayerName_2 = "";
+Text PlayerNameInput_2;
+string Number_of_enemiesDynamic_2 = "";
+
+Text Number_of_enemiesInput_2;
+
+
+
 void main_menu(RenderWindow& window, int amount);
 bool setup_multi2(RenderWindow& window, Sprite& background, int status);
 void choose_mode(RenderWindow& window);
@@ -75,20 +107,6 @@ bool exit(RenderWindow& window, Sprite& background)
 }
 
 bool setup_single(RenderWindow& window, Sprite& background) {
-
-	ofstream Settings;
-	string PlayerNameDynamic;
-	string PlayerName;
-	Text PlayerNameInput;
-	string Number_of_enemiesDynamic;
-	Text Number_of_enemiesInput;
-
-	string number = "";
-	string color_str = "";
-	string name_str = "";
-	string number_bots_str = "";
-	string keymap_str = "";
-
 	Texture arrows, blue, color, green, keymap, name, number_of_enemies, purple, red, save, wasd, zero, one, two,three, four;
 	arrows.loadFromFile("imgs/arrows.psd");
 	blue.loadFromFile("imgs/blue.psd");
@@ -249,31 +267,7 @@ bool setup_single(RenderWindow& window, Sprite& background) {
 				switch (choise)
 				{
 				case 0:
-					Settings.open("Config.txt", std::ios::trunc);
-					if (color_str == "") {
-						Settings <<"COLOR "<<0 << endl;
-					}
-					else {
-						Settings <<"COLOR "<< color_str << endl;
-					}
-					if (keymap_str == "") {
-						Settings << "CONTROL "<<"letters" << endl;
-					}
-					else { 
-						Settings <<"CONTROL "<< keymap_str << endl; 
-					}
-					if (number == "") {
-						Settings << "BOT_COUNT " << 0 << endl;
-					}
-					else {
-						Settings << "BOT_COUNT " << number << endl;
-					}
-					if (PlayerNameDynamic == "") {
-						Settings << "NAME " << "PLAYER" << endl;
-					}
-					else {
-						Settings << "NAME " << PlayerNameDynamic << endl;
-					}
+					
 					is_setup = false;
 					Settings.close();
 					break;
@@ -392,20 +386,10 @@ void present(RenderWindow& window) {
 
 bool setup_multi1(RenderWindow& window, Sprite& background) {
 	ofstream Settings;
-	string PlayerNameDynamic_1;
-	string PlayerName_1;
-	Text PlayerNameInput_1;
-	string Number_of_enemiesDynamic_1;
-
-	Text Number_of_enemiesInput_1;
+	
 
 
-	string color_str_1 = "";
 	
-	string name_str_1 = "";
-	
-	
-	string keymap_str_1 = "";
 	int keymap_status = 0;
 	Texture arrows, blue, color, keymap, name, number_of_enemies, red, save, wasd,  first;
 	arrows.loadFromFile("imgs/arrows.psd");
@@ -513,26 +497,8 @@ bool setup_multi1(RenderWindow& window, Sprite& background) {
 				switch (choise)
 				{
 				case 0:
-					Settings.open("Config1.txt", std::ios::trunc);
-					if (color_str_1 == "") {
-						Settings << "COLOR_1 " << 0 << endl;
-					}
-					else {
-						Settings << "COLOR_1 " << color_str_1 << endl;
-					}
-					if (keymap_str_1 == "") {
-						Settings << "CONTROL_1 " << "letters" << endl;
-					}
-					else {
-						Settings << "CONTROL_1 " << keymap_str_1 << endl;
-					}
+					Settings.open("Config.txt", std::ios::trunc);
 					
-					if (PlayerNameDynamic_1 == "") {
-						Settings << "NAME_1 " << "PLAYER_1" << endl;
-					}
-					else {
-						Settings << "NAME_1 " << PlayerNameDynamic_1 << endl;
-					}
 					is_setup = false;
 					Settings.close();
 					is_setup = setup_multi2(window, background, keymap_status);
@@ -609,19 +575,8 @@ bool setup_multi1(RenderWindow& window, Sprite& background) {
 
 bool setup_multi2(RenderWindow& window, Sprite& background,int keymap_status) {
 	ofstream Settings;
-	string PlayerNameDynamic_2;
-	string PlayerName_2;
-	Text PlayerNameInput_2;
-	string Number_of_enemiesDynamic_2;
-
-	Text Number_of_enemiesInput_2;
-
-	string color_str_2 = "";
-
-	string name_str_2 = "";
-
-
-	string keymap_str_2 = "";
+	
+	
 
 	Texture arrows, purple, color, keymap, name, number_of_enemies, green, save, wasd, second;
 	arrows.loadFromFile("imgs/arrows.psd");
@@ -738,26 +693,8 @@ bool setup_multi2(RenderWindow& window, Sprite& background,int keymap_status) {
 				switch (choise)
 				{
 				case 0:
-					Settings.open("Config1.txt", std::ios::app);
-					if (color_str_2 == "") {
-						Settings << "COLOR_2 " << 2 << endl;
-					}
-					else {
-						Settings << "COLOR_2 " << color_str_2 << endl;
-					}
-					if (keymap_str_2 == "") {
-						Settings << "CONTROL_2 " << "letters" << endl;
-					}
-					else {
-						Settings << "CONTROL_2 " << keymap_str_2 << endl;
-					}
-
-					if (PlayerNameDynamic_2 == "") {
-						Settings << "NAME_2 " << "PLAYER" << endl;
-					}
-					else {
-						Settings << "NAME_2 " << PlayerNameDynamic_2 << endl;
-					}
+					Settings.open("Config.txt", std::ios::app);
+					
 					is_setup = false;
 					Settings.close();
 					
@@ -895,7 +832,48 @@ void main_menu(RenderWindow& window, int amount)
 						Settings << "WINDOW_HEIGHT 720" << endl;
 						Settings << "SPEED 1" << endl;
 						Settings << "MAX_SPEED 20" << endl;
+
+						if (color_str == "") {
+							Settings << "PLAYER_COLOR1 " << 0 << endl;
+							Settings << "PLAYER_COLOR2 " << "LOREM_IPSUM" << endl;
+						}
+						else {
+							Settings << "PLAYER_COLOR1 " << color_str << endl;
+							Settings << "PLAYER_COLOR2 " << "LOREM_IPSUM" << endl;
+
+						}
 						Settings << "MAP 1" << endl;
+						if (number == "") {
+							Settings << "BOT_COUNT " << 0 << endl;
+						}
+						else {
+							Settings << "BOT_COUNT " << number << endl;
+						}
+						Settings << "PLAYER_COUNT 1" << endl;
+						if (keymap_str == "") {
+							Settings << "CONTROL1 " << "letters" << endl;
+							Settings << "CONTROL2 " << "LOREM_IPSUM" << endl;
+
+						}
+						else {
+							Settings << "CONTROL1 " << keymap_str << endl;
+							Settings << "CONTROL2 " << "LOREM_IPSUM" << endl;
+
+						}
+						
+						if (PlayerNameDynamic == "") {
+							Settings << "NAME_1 " << "PLAYER" << endl;
+							Settings << "NAME_2 " << "LOREM_IPSUM" << endl;
+
+						}
+						else {
+							Settings << "NAME_1 " << PlayerNameDynamic << endl;
+							Settings << "NAME_2 " << "LOREM_IPSUM" << endl;
+
+						}
+						
+						
+						
 						Settings.close();
 						break;
 					case 2:
@@ -929,7 +907,50 @@ void main_menu(RenderWindow& window, int amount)
 						Settings << "WINDOW_HEIGHT 720" << endl;
 						Settings << "SPEED 1" << endl;
 						Settings << "MAX_SPEED 20" << endl;
+						if (color_str_1 == "") {
+							Settings << "PLAYER_COLOR1 " << 0 << endl;
+						}
+						else {
+							Settings << "PLAYER_COLOR1 " << color_str_1 << endl;
+						}
+						if (color_str_2 == "") {
+							Settings << "PLAYER_COLOR2 " << 2 << endl;
+						}
+						else {
+							Settings << "PLAYER_COLOR2 " << color_str_2 << endl;
+						}
 						Settings << "MAP 1" << endl;
+						Settings << "BOT_COUNT 0" << endl;
+						Settings << "PLAYER_COUNT 2" << endl;
+
+						if (keymap_str_1 == "") {
+							Settings << "CONTROL_1 " << "letters" << endl;
+							Settings << "CONTROL_2 " << "arrows" << endl;
+						}
+						else {
+							Settings << "CONTROL_1 " << keymap_str_1 << endl;
+						}
+						if (keymap_str_1 == "letters") {
+							Settings << "CONTROL_2 " << "arrows" << endl;
+						}
+						if (keymap_str_1 == "arrows") {
+							Settings << "CONTROL_2 " << "letters" << endl;
+						}
+						if (PlayerNameDynamic_1 == "") {
+							Settings << "NAME_1 " << "PLAYER_1" << endl;
+						}
+						else {
+							Settings << "NAME_1 " << PlayerNameDynamic_1 << endl;
+						}
+						
+						if (PlayerNameDynamic_2 == "") {
+							Settings << "NAME_2 " << "PLAYER_2" << endl;
+						}
+						else {
+							Settings << "NAME_2 " << PlayerNameDynamic_2 << endl;
+						}
+						
+						
 						Settings.close();
 						break;
 					case 2:
@@ -959,8 +980,6 @@ void main_menu(RenderWindow& window, int amount)
 void choose_mode(RenderWindow& window) {
 	Texture background_start, single, multi;
 	ofstream Settings, Settings1;
-	Settings.open("Config1.txt", std::ios::trunc);
-	Settings.close();
 	Settings1.open("Config.txt", std::ios::trunc);
 	Settings1.close();
 	background_start.loadFromFile("imgs/bg.psd");
@@ -1025,7 +1044,6 @@ void choose_mode(RenderWindow& window) {
 int main()
 {
 	RenderWindow window(VideoMode(1280, 720), "TRON");
-
 	choose_mode(window);
 	return 0;
 }
