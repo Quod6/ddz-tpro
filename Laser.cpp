@@ -21,9 +21,9 @@ void Laser::initVariables(Sprite * sprite, bool isPlayer)
 	if (isPlayer)
 	{
 		this->textureV.loadFromFile("./source/imgs/laserV.png",
-			IntRect(1 + this->parser->getPlayerColor(), 0, 1280, 4));
+			IntRect(4 + 4 * this->parser->getPlayerColor(), 0, 1280, 4));
 		this->textureH.loadFromFile("./source/imgs/laserH.png",
-			IntRect(0, 1 + this->parser->getPlayerColor(), 4, 720));
+			IntRect(0, 4 + 4 * this->parser->getPlayerColor(), 4, 720));
 	}
 	else
 	{
@@ -77,8 +77,10 @@ void Laser::update(Sprite * sprite)
 			else
 				this->sprite.setRotation(0.f);
 
-			this->sprite.setTextureRect({0, 0,
-				4, abs((int)dy)});
+			this->sprite.setTextureRect({4 + 4 * this->parser->getPlayerColor(),
+				0,
+				4,
+				abs((int)dy)});
 		}
 		if (dy == 0)
 		{
@@ -86,9 +88,11 @@ void Laser::update(Sprite * sprite)
 				this->sprite.setRotation(180.f);
 			else
 				this->sprite.setRotation(0.f);
-				
-			this->sprite.setTextureRect({0, 0,
-				abs((int)dx), 4});
+
+			this->sprite.setTextureRect({0,
+				4 + 4 * this->parser->getPlayerColor(),
+				abs((int)dx),
+				4});
 		}
 
 		this->sprite.setPosition(this->oldPos.x, this->oldPos.y);
