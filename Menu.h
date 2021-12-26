@@ -39,19 +39,20 @@ string Number_of_enemiesDynamic_2 = "";
 
 Text Number_of_enemiesInput_2;
 int choise_map = 666;
+int b612 = 0;
 
 void main_menu(RenderWindow& window, int amount);
 bool is_pause(RenderWindow& window);
 
 bool setup_multi2(RenderWindow& window, Sprite& background, int status);
-void choose_mode(RenderWindow& window);
+bool choose_mode(RenderWindow& window);
 bool map_selection(RenderWindow& window, Sprite& background);
 bool exit(RenderWindow& window, Sprite& background)
 {
 	Texture are_u_sure, yes, no;
-	are_u_sure.loadFromFile("imgs/are_u_sure.psd");
-	yes.loadFromFile("imgs/yes.psd");
-	no.loadFromFile("imgs/no.psd");
+	are_u_sure.loadFromFile("./source/imgs/are_u_sure.psd");
+	yes.loadFromFile("./source/imgs/yes.psd");
+	no.loadFromFile("./source/imgs/no.psd");
 	Sprite sprite_are_u_sure(are_u_sure), sprite_yes(yes), sprite_no(no);
 	sprite_are_u_sure.setPosition(323, 222);
 	sprite_yes.setPosition(323, 357);
@@ -110,25 +111,25 @@ bool setup_single(RenderWindow& window, Sprite& background) {
 	int choose_opponent = 1000;
 	int choose_keymap = 1000;
 	Texture arrows, blue, color, green, keymap, name, number_of_enemies, purple, red, save, wasd, zero, one, two, three, four, map;
-	arrows.loadFromFile("imgs/arrows.psd");
-	blue.loadFromFile("imgs/blue.psd");
-	color.loadFromFile("imgs/color.psd");
-	green.loadFromFile("imgs/green.psd");
-	keymap.loadFromFile("imgs/keymap.psd");
-	name.loadFromFile("imgs/name.psd");
-	number_of_enemies.loadFromFile("imgs/number_of_enemies.psd");
-	purple.loadFromFile("imgs/purple.psd");
-	red.loadFromFile("imgs/red.psd");
-	save.loadFromFile("imgs/save.psd");
-	wasd.loadFromFile("imgs/wasd.psd");
-	zero.loadFromFile("imgs/0.psd");
-	one.loadFromFile("imgs/1.psd");
-	two.loadFromFile("imgs/2.psd");
-	three.loadFromFile("imgs/3.psd");
-	four.loadFromFile("imgs/4.psd");
-	map.loadFromFile("imgs/map_selection.psd");
+	arrows.loadFromFile("./source/imgs/arrows.psd");
+	blue.loadFromFile("./source/imgs/blue.psd");
+	color.loadFromFile("./source/imgs/color.psd");
+	green.loadFromFile("./source/imgs/green.psd");
+	keymap.loadFromFile("./source/imgs/keymap.psd");
+	name.loadFromFile("./source/imgs/name.psd");
+	number_of_enemies.loadFromFile("./source/imgs/number_of_enemies.psd");
+	purple.loadFromFile("./source/imgs/purple.psd");
+	red.loadFromFile("./source/imgs/red.psd");
+	save.loadFromFile("./source/imgs/save.psd");
+	wasd.loadFromFile("./source/imgs/wasd.psd");
+	zero.loadFromFile("./source/imgs/0.psd");
+	one.loadFromFile("./source/imgs/1.psd");
+	two.loadFromFile("./source/imgs/2.psd");
+	three.loadFromFile("./source/imgs/3.psd");
+	four.loadFromFile("./source/imgs/4.psd");
+	map.loadFromFile("./source/imgs/map_selection.psd");
 	Font shrift;
-	shrift.loadFromFile("fonts/CyberwayRiders.ttf");
+	shrift.loadFromFile("./source/fonts/CyberwayRiders.ttf");
 	PlayerNameInput.setFillColor(sf::Color(0, 0, 255));
 	PlayerNameInput.setFont(shrift);
 	PlayerNameInput.setCharacterSize(40);
@@ -422,35 +423,19 @@ bool setup_single(RenderWindow& window, Sprite& background) {
 	return true;
 }
 
-void present(RenderWindow& window) {
-	Texture start;
-	start.loadFromFile("imgs/creators.psd");
-	Sprite s(start);
-	s.setPosition(0, 0);
-	bool i = true;
-	while (i) {
-		s.setColor(Color::White);
 
-		window.draw(s);
-		window.display();
-		Sleep(4000);
-		i = false;
-	}
-	choose_mode(window);
-
-}
 
 bool map_selection(RenderWindow& window, Sprite& background) {
 	Texture map_1, map_2, map_3, map_1_text, map_2_text, map_3_text, save;
 	int predv_choise = 666;
 	int choise = 666;
-	map_1.loadFromFile("imgs/map_1.psd");
-	map_2.loadFromFile("imgs/map_2.psd");
-	map_3.loadFromFile("imgs/map_3.psd");
-	map_1_text.loadFromFile("imgs/map_1_text.psd");
-	map_2_text.loadFromFile("imgs/map_2_text.psd");
-	map_3_text.loadFromFile("imgs/map_3_text.psd");
-	save.loadFromFile("imgs/save1.psd");
+	map_1.loadFromFile("./source/imgs/map_1.psd");
+	map_2.loadFromFile("./source/imgs/map_2.psd");
+	map_3.loadFromFile("./source/imgs/map_3.psd");
+	map_1_text.loadFromFile("./source/imgs/map_1_text.psd");
+	map_2_text.loadFromFile("./source/imgs/map_2_text.psd");
+	map_3_text.loadFromFile("./source/imgs/map_3_text.psd");
+	save.loadFromFile("./source/imgs/save1.psd");
 	Sprite sprite_map1(map_1), sprite_map2(map_2), sprite_map3(map_3), sprite_map1_text(map_1_text), sprite_map2_text(map_2_text), sprite_map3_text(map_3_text), sprite_save(save);
 	bool is_setup = true;
 	sprite_map1.setPosition(470, 110);
@@ -570,21 +555,21 @@ bool setup_multi1(RenderWindow& window, Sprite& background) {
 	int choose_keymap = 1000;
 	int keymap_status = 0;
 	Texture arrows, blue, color, keymap, name, number_of_enemies, red, save, wasd, first, map;
-	arrows.loadFromFile("imgs/arrows.psd");
-	blue.loadFromFile("imgs/blue.psd");
-	color.loadFromFile("imgs/color.psd");
+	arrows.loadFromFile("./source/imgs/arrows.psd");
+	blue.loadFromFile("./source/imgs/blue.psd");
+	color.loadFromFile("./source/imgs/color.psd");
 
-	keymap.loadFromFile("imgs/keymap.psd");
-	name.loadFromFile("imgs/name.psd");
-	map.loadFromFile("imgs/map_selection.psd");
+	keymap.loadFromFile("./source/imgs/keymap.psd");
+	name.loadFromFile("./source/imgs/name.psd");
+	map.loadFromFile("./source/imgs/map_selection.psd");
 
-	red.loadFromFile("imgs/red.psd");
-	save.loadFromFile("imgs/save.psd");
-	wasd.loadFromFile("imgs/wasd.psd");
-	first.loadFromFile("imgs/1_player.psd");
+	red.loadFromFile("./source/imgs/red.psd");
+	save.loadFromFile("./source/imgs/save.psd");
+	wasd.loadFromFile("./source/imgs/wasd.psd");
+	first.loadFromFile("./source/imgs/1_player.psd");
 
 	Font shrift;
-	shrift.loadFromFile("fonts/CyberwayRiders.ttf");
+	shrift.loadFromFile("./source/fonts/CyberwayRiders.ttf");
 	PlayerNameInput_1.setFillColor(sf::Color(0, 0, 255));
 	PlayerNameInput_1.setFont(shrift);
 	PlayerNameInput_1.setCharacterSize(40);
@@ -676,7 +661,7 @@ bool setup_multi1(RenderWindow& window, Sprite& background) {
 				{
 				case 0:
 					is_setup = setup_multi2(window, background, keymap_status);
-					return true;
+					is_setup = false;
 					break;
 				case 1:
 					keymap_str_1 = "arrows";
@@ -775,21 +760,21 @@ bool setup_multi2(RenderWindow& window, Sprite& background, int keymap_status) {
 
 
 	Texture arrows, purple, color, keymap, name, number_of_enemies, green, save, wasd, second;
-	arrows.loadFromFile("imgs/arrows.psd");
-	green.loadFromFile("imgs/green.psd");
-	color.loadFromFile("imgs/color.psd");
+	arrows.loadFromFile("./source/imgs/arrows.psd");
+	green.loadFromFile("./source/imgs/green.psd");
+	color.loadFromFile("./source/imgs/color.psd");
 
-	keymap.loadFromFile("imgs/keymap.psd");
-	name.loadFromFile("imgs/name.psd");
+	keymap.loadFromFile("./source/imgs/keymap.psd");
+	name.loadFromFile("./source/imgs/name.psd");
 
 
-	purple.loadFromFile("imgs/purple.psd");
-	save.loadFromFile("imgs/save.psd");
-	wasd.loadFromFile("imgs/wasd.psd");
-	second.loadFromFile("imgs/2_player.psd");
+	purple.loadFromFile("./source/imgs/purple.psd");
+	save.loadFromFile("./source/imgs/save.psd");
+	wasd.loadFromFile("./source/imgs/wasd.psd");
+	second.loadFromFile("./source/imgs/2_player.psd");
 
 	Font shrift;
-	shrift.loadFromFile("fonts/CyberwayRiders.ttf");
+	shrift.loadFromFile("./source/fonts/CyberwayRiders.ttf");
 	PlayerNameInput_2.setFillColor(sf::Color(0, 0, 255));
 	PlayerNameInput_2.setFont(shrift);
 	PlayerNameInput_2.setCharacterSize(40);
@@ -889,7 +874,7 @@ bool setup_multi2(RenderWindow& window, Sprite& background, int keymap_status) {
 				switch (choise)
 				{
 				case 0:
-					Settings.open("Config.txt", std::ios::app);
+					Settings.open("./config.txt", std::ios::app);
 
 					is_setup = false;
 					Settings.close();
@@ -990,10 +975,10 @@ void main_menu(RenderWindow& window, int amount)
 
 	Texture background_start, begin, shesterenka, exit_texture;
 
-	background_start.loadFromFile("imgs/bg.psd");
-	begin.loadFromFile("imgs/begin.psd");
-	shesterenka.loadFromFile("imgs/shesterenka.psd");
-	exit_texture.loadFromFile("imgs/exit.psd");
+	background_start.loadFromFile("./source/imgs/bg.psd");
+	begin.loadFromFile("./source/imgs/begin.psd");
+	shesterenka.loadFromFile("./source/imgs/shesterenka.psd");
+	exit_texture.loadFromFile("./source/imgs/exit.psd");
 
 	Sprite sprite_bg(background_start), sprite_begin(begin), sprite_shesterenka(shesterenka), sprite_exit(exit_texture);
 	sprite_bg.setPosition(0, 0);
@@ -1043,7 +1028,7 @@ void main_menu(RenderWindow& window, int amount)
 					switch (menu_status)
 					{
 					case 1:
-						Settings.open("Config.txt", std::ios::app);
+						Settings.open("./config.txt", std::ios::app);
 						Settings << "WINDOW_WIDTH 1280" << endl;
 						Settings << "WINDOW_HEIGHT 720" << endl;
 						Settings << "SPEED 1" << endl;
@@ -1080,7 +1065,7 @@ void main_menu(RenderWindow& window, int amount)
 
 						}
 						else {
-							Settings << "CONTROL1 " << keymap_str << endl;
+							Settings << "CONTROL " << keymap_str << endl;
 
 
 						}
@@ -1096,7 +1081,7 @@ void main_menu(RenderWindow& window, int amount)
 
 						}
 						Settings.close();
-						is_menu = is_pause(window);
+						is_menu = false;
 						break;
 					case 2:
 						is_menu = setup_single(window, sprite_bg);
@@ -1124,7 +1109,7 @@ void main_menu(RenderWindow& window, int amount)
 					switch (menu_status)
 					{
 					case 1:
-						Settings.open("Config.txt", std::ios::app);
+						Settings.open("./config.txt", std::ios::app);
 						Settings << "WINDOW_WIDTH 1280" << endl;
 						Settings << "WINDOW_HEIGHT 720" << endl;
 						Settings << "SPEED 1" << endl;
@@ -1175,7 +1160,7 @@ void main_menu(RenderWindow& window, int amount)
 							Settings << "PLAYER2_NAME " << PlayerNameDynamic_2 << endl;
 						}
 						Settings.close();
-						break;
+						return;
 					case 2:
 						is_menu = setup_multi1(window, sprite_bg);
 						break;
@@ -1200,16 +1185,16 @@ void main_menu(RenderWindow& window, int amount)
 
 }
 
-void choose_mode(RenderWindow& window) {
+bool choose_mode(RenderWindow& window) {
 	int menu_status = 0;
 	Texture background_start, single, multi;
 	// очищаем наш файл
-	Settings.open("Config.txt", std::ios::trunc);
+	Settings.open("./config.txt", std::ios::trunc);
 	Settings.close();
 	// загружаем картинки
-	background_start.loadFromFile("imgs/bg.psd");
-	single.loadFromFile("imgs/single_player.psd");
-	multi.loadFromFile("imgs/multi_player.psd");
+	background_start.loadFromFile("./source/imgs/bg.psd");
+	single.loadFromFile("./source/imgs/single_player.psd");
+	multi.loadFromFile("./source/imgs/multi_player.psd");
 	Sprite sprite_bg(background_start), sprite_single(single), sprite_multi(multi);
 	sprite_bg.setPosition(0, 0);
 	sprite_single.setPosition(200, 200);
@@ -1245,9 +1230,11 @@ void choose_mode(RenderWindow& window) {
 				{
 				case 1:
 					main_menu(window, 1);
+					is_menu = false;
 					break;
 				case 2:
 					main_menu(window, 2);
+					is_menu = false;
 					break;
 
 				default:
@@ -1262,20 +1249,20 @@ void choose_mode(RenderWindow& window) {
 		window.draw(sprite_multi);
 		window.display();
 	}
-
+	return true;
 
 }
 
 bool is_pause(RenderWindow& window) {
 	Texture pause, Continue, quit_to_menu, circle1, circle2, circle3, restart, background;
-	pause.loadFromFile("imgs/pause.psd");
-	Continue.loadFromFile("imgs/continue.psd");
-	quit_to_menu.loadFromFile("imgs/quit_to_menu.psd");
-	circle1.loadFromFile("imgs/circle.psd");
-	circle2.loadFromFile("imgs/circle.psd");
-	circle3.loadFromFile("imgs/circle.psd");
-	restart.loadFromFile("imgs/restart.psd");
-	background.loadFromFile("imgs/101.psd");
+	pause.loadFromFile("./source/imgs/pause.psd");
+	Continue.loadFromFile("./source/imgs/continue.psd");
+	quit_to_menu.loadFromFile("./source/imgs/quit_to_menu.psd");
+	circle1.loadFromFile("./source/imgs/circle.psd");
+	circle2.loadFromFile("./source/imgs/circle.psd");
+	circle3.loadFromFile("./source/imgs/circle.psd");
+	restart.loadFromFile("./source/imgs/restart.psd");
+	background.loadFromFile("./source/imgs/101.psd");
 
 	Sprite sprite_pause(pause), sprite_continue(Continue), sprite_quit(quit_to_menu), sprite_circle1(circle1), sprite_circle2(circle2), sprite_circle3(circle3), sprite_restart(restart), sprite_back(background);
 	sprite_back.setPosition(0, 0);
@@ -1378,5 +1365,3 @@ bool is_pause(RenderWindow& window) {
 	}
 	return true;
 }
-
-

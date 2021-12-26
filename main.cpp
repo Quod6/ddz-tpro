@@ -1,6 +1,6 @@
 #include "Libs.h"
 #include "Game.h"
-
+#include "Menu.h"
 int main()
 {
 	// Timer
@@ -9,6 +9,10 @@ int main()
 
 	// Init random seed
 	reseed(time(0));
+
+	RenderWindow * w = new RenderWindow(VideoMode(1280,720), "TRON",Style::Close | Style::Titlebar);
+	choose_mode(*w);
+	delete w;
 
 	// Init Game engine
 	Game game;
