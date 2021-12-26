@@ -91,14 +91,14 @@ void Player::initShape()
 bool Player::wallCollision()
 {
 	if (this->sprite.getPosition().x < 120)
-		return false;
+		return true;
 	if (this->sprite.getPosition().x > this->parser->getWindowWidth() - 120)
-		return false;
+		return true;
 	if (this->sprite.getPosition().y < 100)
-		return false;
+		return true;
 	if (this->sprite.getPosition().y > this->parser->getWindowHeight() - 70)
-		return false;
-	return true;
+		return true;
+	return false;
 }
 
 // Makes BOOM
@@ -131,7 +131,7 @@ void Player::setDirection()
 
 void Player::move(float dt)
 {
-	if(this->wallCollision() && !this->isCollided)
+	if(!this->wallCollision() && !this->isCollided)
 	{
 		this->setDirection();
 		switch (static_cast<int>(this->position.z))
