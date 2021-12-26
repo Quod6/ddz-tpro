@@ -33,6 +33,9 @@ private:
 	*/
 	string CONTROL;
 
+	string PLAYER1_NAME;
+	string PLAYER2_NAME;
+
 	int PLAYER_COUNT;
 	int BOT_COUNT;
 
@@ -48,6 +51,7 @@ public:
 	float getSpeed();
 	float getMaxSpeed();
 	int getPlayerColor(int playerIndex);
+	string getPlayerName(int playerIndex);
 	int getMapIndex();
 	int getPlayerCount();
 	int getBotCount();

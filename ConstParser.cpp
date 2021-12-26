@@ -12,6 +12,8 @@ ConstParser::ConstParser()
 	this->PLAYER_COUNT = 1;
 	this->BOT_COUNT = 0;
 	this->CONTROL = "letters";
+	this->PLAYER1_NAME = "PLAYER_1";
+	this->PLAYER2_NAME = "PLAYER_2";
 }
 
 void ConstParser::parse(string filepath)
@@ -45,6 +47,8 @@ void ConstParser::parse(string filepath)
 		}
 		else if (token == "BOT_COUNT") this->BOT_COUNT = stoi(value);
 		else if (token == "CONTROL") this->CONTROL = value;
+		else if (token == "PLAYER1_NAME") this->PLAYER1_NAME = value;
+		else if (token == "PLAYER2_NAME") this->PLAYER2_NAME = value;
 	}
 }
 
@@ -93,4 +97,11 @@ int ConstParser::getBotCount()
 string ConstParser::getControl()
 {
 	return this->CONTROL;
+}
+
+string ConstParser::getPlayerName(int playerIndex)
+{
+	if (playerIndex == 0)
+		return this->PLAYER1_NAME;
+	return this->PLAYER2_NAME;
 }
