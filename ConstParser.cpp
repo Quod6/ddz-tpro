@@ -7,7 +7,7 @@ ConstParser::ConstParser()
 	this->SPEED = 1.f;
 	this->MAX_SPEED = 20.f;
 	this->PLAYER_COLOR1 = 0;
-	this->PLAYER_COLOR2 = 1;
+	this->PLAYER_COLOR2 = 2;
 	this->MAP_INDEX = 0;
 	this->PLAYER_COUNT = 1;
 	this->BOT_COUNT = 0;
