@@ -90,15 +90,70 @@ void Player::initShape()
 // Checking collisions with walls
 bool Player::wallCollision()
 {
-	if (this->sprite.getPosition().x < 120)
-		return true;
-	if (this->sprite.getPosition().x > this->parser->getWindowWidth() - 120)
-		return true;
-	if (this->sprite.getPosition().y < 100)
-		return true;
-	if (this->sprite.getPosition().y > this->parser->getWindowHeight() - 70)
-		return true;
-	return false;
+	switch (this->parser->getMapIndex())
+	{
+		case 0:
+			if (this->sprite.getPosition().x < 120)
+				return true;
+			if (this->sprite.getPosition().x > this->parser->getWindowWidth() - 120)
+				return true;
+			if (this->sprite.getPosition().y < 100)
+				return true;
+			if (this->sprite.getPosition().y > this->parser->getWindowHeight() - 70)
+				return true;
+			return false;
+		case 1:
+			if (this->sprite.getPosition().x < 120)
+				return true;
+			if (this->sprite.getPosition().x > this->parser->getWindowWidth() - 120)
+				return true;
+			if (this->sprite.getPosition().y < 100)
+				return true;
+			if (this->sprite.getPosition().y > this->parser->getWindowHeight() - 70)
+				return true;
+			if (this->sprite.getPosition().x < 400
+				&& this->sprite.getPosition().y < 250)
+				return true;
+			if (this->sprite.getPosition().x > 890
+				&& this->sprite.getPosition().y < 250)
+				return true;
+			if (this->sprite.getPosition().x < 400
+				&& this->sprite.getPosition().y > 500)
+				return true;
+			if (this->sprite.getPosition().x > 890
+				&& this->sprite.getPosition().y > 500)
+				return true;
+			return false;
+		case 2:
+			if (this->sprite.getPosition().x < 120)
+				return true;
+			if (this->sprite.getPosition().x > this->parser->getWindowWidth() - 120)
+				return true;
+			if (this->sprite.getPosition().y < 100)
+				return true;
+			if (this->sprite.getPosition().y > this->parser->getWindowHeight() - 70)
+				return true;
+			if (this->sprite.getPosition().x < 205
+				&& this->sprite.getPosition().y > 250
+				&& this->sprite.getPosition().y < 500)
+				return true;
+			if (this->sprite.getPosition().x > 405
+				&& this->sprite.getPosition().x < 870
+				&& this->sprite.getPosition().y < 205)
+				return true;
+			if (this->sprite.getPosition().x > 1070
+				&& this->sprite.getPosition().y > 250
+				&& this->sprite.getPosition().y < 500)
+				return true;
+			if (this->sprite.getPosition().x > 405
+				&& this->sprite.getPosition().x < 870
+				&& this->sprite.getPosition().y > 545)
+				return true;
+			return false;
+		default:
+			return false;
+	}
+
 }
 
 // Makes BOOM
@@ -231,28 +286,84 @@ void Player::updateInput(float dt)
 {
 	if (this->isPlayer)
 	{
-		// Keyboadr input
-		if (this->parser->getControl() == "letters")
+		if (this->parser->getPlayerCount() == 1)
 		{
-			if(Keyboard::isKeyPressed(Keyboard::A))
-				this->rotate(3);
-			else if(Keyboard::isKeyPressed(Keyboard::W))
-				this->rotate(0);
-			else if(Keyboard::isKeyPressed(Keyboard::S))
-				this->rotate(2);
-			else if(Keyboard::isKeyPressed(Keyboard::D))
-				this->rotate(1);
+			// Keyboadr input
+			if (this->parser->getControl() == "letters")
+			{
+				if(Keyboard::isKeyPressed(Keyboard::A))
+					this->rotate(3);
+				else if(Keyboard::isKeyPressed(Keyboard::W))
+					this->rotate(0);
+				else if(Keyboard::isKeyPressed(Keyboard::S))
+					this->rotate(2);
+				else if(Keyboard::isKeyPressed(Keyboard::D))
+					this->rotate(1);
+			}
+			else
+			{
+				if(Keyboard::isKeyPressed(Keyboard::Left))
+					this->rotate(3);
+				else if(Keyboard::isKeyPressed(Keyboard::Up))
+					this->rotate(0);
+				else if(Keyboard::isKeyPressed(Keyboard::Down))
+					this->rotate(2);
+				else if(Keyboard::isKeyPressed(Keyboard::Right))
+					this->rotate(1);
+			}
 		}
 		else
 		{
-			if(Keyboard::isKeyPressed(Keyboard::Left))
-				this->rotate(3);
-			else if(Keyboard::isKeyPressed(Keyboard::Up))
-				this->rotate(0);
-			else if(Keyboard::isKeyPressed(Keyboard::Down))
-				this->rotate(2);
-			else if(Keyboard::isKeyPressed(Keyboard::Right))
-				this->rotate(1);
+			if (this->playerIndex == 0)
+			{
+				if (this->parser->getControl() == "letters")
+				{
+					if(Keyboard::isKeyPressed(Keyboard::A))
+						this->rotate(3);
+					else if(Keyboard::isKeyPressed(Keyboard::W))
+						this->rotate(0);
+					else if(Keyboard::isKeyPressed(Keyboard::S))
+						this->rotate(2);
+					else if(Keyboard::isKeyPressed(Keyboard::D))
+						this->rotate(1);
+				}
+				else
+				{
+					if(Keyboard::isKeyPressed(Keyboard::Left))
+						this->rotate(3);
+					else if(Keyboard::isKeyPressed(Keyboard::Up))
+						this->rotate(0);
+					else if(Keyboard::isKeyPressed(Keyboard::Down))
+						this->rotate(2);
+					else if(Keyboard::isKeyPressed(Keyboard::Right))
+						this->rotate(1);
+				}
+			}
+			else
+			{
+				if (this->parser->getControl() == "arrows")
+				{
+					if(Keyboard::isKeyPressed(Keyboard::A))
+						this->rotate(3);
+					else if(Keyboard::isKeyPressed(Keyboard::W))
+						this->rotate(0);
+					else if(Keyboard::isKeyPressed(Keyboard::S))
+						this->rotate(2);
+					else if(Keyboard::isKeyPressed(Keyboard::D))
+						this->rotate(1);
+				}
+				else
+				{
+					if(Keyboard::isKeyPressed(Keyboard::Left))
+						this->rotate(3);
+					else if(Keyboard::isKeyPressed(Keyboard::Up))
+						this->rotate(0);
+					else if(Keyboard::isKeyPressed(Keyboard::Down))
+						this->rotate(2);
+					else if(Keyboard::isKeyPressed(Keyboard::Right))
+						this->rotate(1);
+				}
+			}
 		}
 	}
 	else

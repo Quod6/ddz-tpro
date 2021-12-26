@@ -34,6 +34,12 @@ void Game::initVariables()
 		case 0:
 			this->bgTexture.loadFromFile("./source/imgs/map3.png");
 			break;
+		case 1:
+			this->bgTexture.loadFromFile("./source/imgs/map4.png");
+			break;
+		case 2:
+			this->bgTexture.loadFromFile("./source/imgs/map5.png");
+			break;
 		default:
 			this->bgTexture.loadFromFile("./source/imgs/map3.png");
 	}
@@ -51,21 +57,39 @@ void Game::initVariables()
 
 void Game::initPlayers()
 {
-	for (int i = 0; i < this->parser->getPlayerCount(); i++)
-	{
-		this->players.push_back(new Player(true, i,
-			randInt(0, this->parser->getWindowWidth()),
-			randInt(0, this->parser->getWindowHeight())));
-	}
+	this->players.clear();
+
+	this->players.push_back(new Player(true, 0, 250, 375));
+
+	if (this->parser->getPlayerCount() == 2)
+		this->players.push_back(new Player(true, 1, 1030, 375, 3));
 }
 
 void Game::initBots()
 {
-	for (int i = 0; i < this->parser->getBotCount(); i++)
+	this->bots.clear();
+	switch (this->parser->getBotCount())
 	{
-		this->bots.push_back(new Player(false, -1,
-			randInt(0, this->parser->getWindowWidth()),
-			randInt(0, this->parser->getWindowHeight())));
+		case 0:
+			break;
+		case 1:
+			this->bots.push_back(new Player(false, -1, 1030, 375, 3));
+			break;
+		case 2:
+			this->bots.push_back(new Player(false, -1, 1030, 300, 3));
+			this->bots.push_back(new Player(false, -1, 1030, 450, 3));
+			break;
+		case 3:
+			this->bots.push_back(new Player(false, -1, 1030, 300, 3));
+			this->bots.push_back(new Player(false, -1, 1030, 450, 3));
+			this->bots.push_back(new Player(false, -1, 800, 375, 3));
+			break;
+		case 4:
+			this->bots.push_back(new Player(false, -1, 1030, 300, 3));
+			this->bots.push_back(new Player(false, -1, 1030, 450, 3));
+			this->bots.push_back(new Player(false, -1, 800, 350, 3));
+			this->bots.push_back(new Player(false, -1, 800, 400, 3));
+			break;
 	}
 }
 

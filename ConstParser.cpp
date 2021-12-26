@@ -39,16 +39,17 @@ void ConstParser::parse(string filepath)
 		else if (token == "PLAYER_COLOR1") this->PLAYER_COLOR1 = stoi(value);
 		else if (token == "PLAYER_COLOR2") this->PLAYER_COLOR2 = stoi(value);
 		else if (token == "MAP_INDEX") this->MAP_INDEX = stoi(value);
-		else if (token == "PLAYER_COUNT")
-		{
-			this->PLAYER_COUNT = stoi(value);
-			if (this->PLAYER_COUNT > 2)
-				this->PLAYER_COUNT = 2;
-		}
 		else if (token == "BOT_COUNT") this->BOT_COUNT = stoi(value);
+		else if (token == "PLAYER_COUNT") this->PLAYER_COUNT = stoi(value);
 		else if (token == "CONTROL") this->CONTROL = value;
 		else if (token == "PLAYER1_NAME") this->PLAYER1_NAME = value;
 		else if (token == "PLAYER2_NAME") this->PLAYER2_NAME = value;
+	}
+
+	if (this->PLAYER_COUNT >= 2)
+	{
+		this->PLAYER_COUNT = 2;
+		this->BOT_COUNT = 0;
 	}
 }
 
