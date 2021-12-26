@@ -12,7 +12,6 @@ void Game::initVariables()
 {
 	// Init window & main variables
 	this->window = nullptr;
-	this->player = nullptr;
 	this->endGame = false;
 
 	// Init fonts
@@ -50,20 +49,21 @@ void Game::initVariables()
 
 }
 
-void Game::initPlayer()
+void Game::initPlayers()
 {
-	int s = static_cast<int>(this->parser->getSpeed());
-	this->player = new Player(true,
-		static_cast<float>(randInt(10*s, this->parser->getWindowWidth()-10*s)),
-		static_cast<float>(randInt(10*s, this->parser->getWindowHeight()-10*s)),
-		static_cast<float>(randInt(0, 3)));
+	for (int i = 0; i < this->parser->getPlayerCount(); i++)
+	{
+		this->players.push_back(new Player(true, i,
+			randInt(0, this->parser->getWindowWidth()),
+			randInt(0, this->parser->getWindowHeight())));
+	}
 }
 
 void Game::initBots()
 {
 	for (int i = 0; i < this->parser->getBotCount(); i++)
 	{
-		this->bots.push_back(new Player(false,
+		this->bots.push_back(new Player(false, -1,
 			randInt(0, this->parser->getWindowWidth()),
 			randInt(0, this->parser->getWindowHeight())));
 	}
@@ -77,12 +77,60 @@ void Game::initWindow()
 	this->window->setFramerateLimit(180);
 }
 
+void Game::getBoundsOfEntities()
+{
+	this->boundsOfEntities.clear();
+	this->boundsOfMajorEntities.clear();
+	vector<FloatRect> bounds;
+	PlayerBounds playerBounds;
+	bounds.clear();
+
+
+	for(unsigned i = 0; i < this->players.size(); i++)
+	{
+		this->boundsOfEntities.push_back(this->players[i]->getPlayerSprite().getGlobalBounds());
+		playerBounds.player = this->players[i];
+		playerBounds.bounds = this->players[i]->getPlayerSprite().getGlobalBounds();
+		this->boundsOfMajorEntities.push_back(playerBounds);
+		bounds = this->players[i]->getLaserBounds();
+		for (unsigned j = 0; j < bounds.size(); j++)
+			this->boundsOfEntities.push_back(bounds[j]);
+	}
+	bounds.clear();
+
+	for(unsigned i = 0; i < this->bots.size(); i++)
+	{
+		this->boundsOfEntities.push_back(this->bots[i]->getPlayerSprite().getGlobalBounds());
+		playerBounds.player = this->bots[i];
+		playerBounds.bounds = this->bots[i]->getPlayerSprite().getGlobalBounds();
+		this->boundsOfMajorEntities.push_back(playerBounds);
+		bounds = this->bots[i]->getLaserBounds();
+		for (unsigned j = 0; j < bounds.size(); j++)
+			this->boundsOfEntities.push_back(bounds[j]);
+	}
+}
+
+void Game::checkGlobalCollision()
+{
+	this->getBoundsOfEntities();
+	for (unsigned i = 0; i < this->boundsOfMajorEntities.size(); i++)
+	{
+		for (unsigned j = 0; j < this->boundsOfEntities.size(); j++)
+		{
+			if (this->boundsOfMajorEntities[i].bounds == this->boundsOfEntities[j])
+				continue;
+			if (this->boundsOfMajorEntities[i].bounds.intersects(this->boundsOfEntities[j]))
+				this->boundsOfMajorEntities[i].player->setCollided(true);
+		}
+	}
+}
+
 // Constructor & destructor
 Game::Game()
 {
 	this->initParser();
 	this->initVariables();
-	this->initPlayer();
+	this->initPlayers();
 	this->initBots();
 	this->initWindow();
 	this->phonk.play();
@@ -91,7 +139,6 @@ Game::Game()
 Game::~Game()
 {
 	delete this->window;
-	delete this->player;
 }
 
 const bool Game::isRunning() const
@@ -118,9 +165,11 @@ void Game::pollEvents()
 void Game::update(float dt)
 {
 	this->pollEvents();
+	this->checkGlobalCollision();
 
-	this->player->update(dt);
-	for (int i = 0; i < this->parser->getBotCount(); i++)
+	for (unsigned i = 0; i < this->players.size(); i++)
+		this->players[i]->update(dt);
+	for (unsigned i = 0; i < this->bots.size(); i++)
 		this->bots[i]->update(dt);
 }
 
@@ -131,8 +180,9 @@ void Game::render()
 
 	// Draw game objects
 	this->window->draw(this->bgSprite);
-	this->player->render(this->window);
-	for (int i = 0; i < this->parser->getBotCount(); i++)
+	for (unsigned i = 0; i < this->players.size(); i++)
+		this->players[i]->render(this->window);
+	for (unsigned i = 0; i < this->bots.size(); i++)
 		this->bots[i]->render(this->window);
 
 	// Display new frame

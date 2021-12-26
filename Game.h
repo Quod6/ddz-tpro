@@ -27,7 +27,7 @@ private:
 	Sprite bgSprite;
 
 	// Player
-	Player *player;
+	vector<Player *> players;
 
 	// Bots
 	vector<Player *> bots;
@@ -35,13 +35,33 @@ private:
 	// Parser
 	ConstParser *parser;
 
+	// Global bounds of all entities
+	vector<FloatRect> boundsOfEntities;
+
+	// Global bounds of major entities
+public:
+	struct PlayerBounds
+	{
+		Player * player;
+		FloatRect bounds;
+	};
+private:
+	vector<PlayerBounds> boundsOfMajorEntities;
+
 	//Functions
 	// Private functions
 	void initParser();
 	void initVariables();
-	void initPlayer();
+	void initPlayers();
 	void initBots();
 	void initWindow();
+
+	// Global bounds of all entities
+	void getBoundsOfEntities();
+
+	// Global collision
+	void checkGlobalCollision();
+
 public:
 	// Constructor & destructor
 	Game();
