@@ -2,7 +2,16 @@
 
 ConstParser::ConstParser()
 {
-
+	this->WINDOW_WIDTH = 1280;
+	this->WINDOW_HEIGHT = 720;
+	this->SPEED = 1.f;
+	this->MAX_SPEED = 20.f;
+	this->PLAYER_COLOR1 = 0;
+	this->PLAYER_COLOR2 = 1;
+	this->MAP_INDEX = 0;
+	this->PLAYER_COUNT = 1;
+	this->BOT_COUNT = 0;
+	// this->CONTROL = "letters";
 }
 
 void ConstParser::parse(string filepath)
@@ -25,9 +34,15 @@ void ConstParser::parse(string filepath)
 		else if (token == "WINDOW_HEIGHT") this->WINDOW_HEIGHT = stoi(value);
 		else if (token == "SPEED") this->SPEED = stof(value);
 		else if (token == "MAX_SPEED") this->MAX_SPEED = stof(value);
-		else if (token == "PLAYER_COLOR") this->PLAYER_COLOR = stoi(value);
+		else if (token == "PLAYER_COLOR1") this->PLAYER_COLOR1 = stoi(value);
+		else if (token == "PLAYER_COLOR2") this->PLAYER_COLOR2 = stoi(value);
 		else if (token == "MAP_INDEX") this->MAP_INDEX = stoi(value);
-		else if (token == "PLAYER_COUNT") this->PLAYER_COUNT = stoi(value);
+		else if (token == "PLAYER_COUNT")
+		{
+			this->PLAYER_COUNT = stoi(value);
+			if (this->PLAYER_COUNT > 2)
+				this->PLAYER_COUNT = 2;
+		}
 		else if (token == "BOT_COUNT") this->BOT_COUNT = stoi(value);
 		else if (token == "CONTROL") this->CONTROL = value;
 	}
@@ -53,9 +68,11 @@ float ConstParser::getMaxSpeed()
 	return this->MAX_SPEED;
 }
 
-int ConstParser::getPlayerColor()
+int ConstParser::getPlayerColor(int playerIndex)
 {
-	return this->PLAYER_COLOR;
+	if (playerIndex == 0)
+		return this->PLAYER_COLOR1;
+	return this->PLAYER_COLOR2;
 }
 
 int ConstParser::getMapIndex()

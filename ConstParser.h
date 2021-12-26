@@ -19,7 +19,8 @@ private:
 		2 - green
 		3 - purple
 	*/
-	int PLAYER_COLOR;
+	int PLAYER_COLOR1;
+	int PLAYER_COLOR2;
 
 	/*
 		0 - map3.png
@@ -46,7 +47,7 @@ public:
 	int getWindowHeight();
 	float getSpeed();
 	float getMaxSpeed();
-	int getPlayerColor();
+	int getPlayerColor(int playerIndex);
 	int getMapIndex();
 	int getPlayerCount();
 	int getBotCount();
