@@ -31,7 +31,7 @@ public:
 	Player(bool isPlayer, int indexPlayer, float x = 0.f, float y = 0.f, float z = 1.f);
 	virtual ~Player();
 
-	Sprite getPlayerSprite();
+	FloatRect getPlayerBounds();
 	vector<FloatRect> getLaserBounds();
 
 	void setCollided(bool value);

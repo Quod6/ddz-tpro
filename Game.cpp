@@ -88,9 +88,9 @@ void Game::getBoundsOfEntities()
 
 	for(unsigned i = 0; i < this->players.size(); i++)
 	{
-		this->boundsOfEntities.push_back(this->players[i]->getPlayerSprite().getGlobalBounds());
+		this->boundsOfEntities.push_back(this->players[i]->getPlayerBounds());
 		playerBounds.player = this->players[i];
-		playerBounds.bounds = this->players[i]->getPlayerSprite().getGlobalBounds();
+		playerBounds.bounds = this->players[i]->getPlayerBounds();
 		this->boundsOfMajorEntities.push_back(playerBounds);
 		bounds = this->players[i]->getLaserBounds();
 		for (unsigned j = 0; j < bounds.size(); j++)
@@ -100,9 +100,9 @@ void Game::getBoundsOfEntities()
 
 	for(unsigned i = 0; i < this->bots.size(); i++)
 	{
-		this->boundsOfEntities.push_back(this->bots[i]->getPlayerSprite().getGlobalBounds());
+		this->boundsOfEntities.push_back(this->bots[i]->getPlayerBounds());
 		playerBounds.player = this->bots[i];
-		playerBounds.bounds = this->bots[i]->getPlayerSprite().getGlobalBounds();
+		playerBounds.bounds = this->bots[i]->getPlayerBounds();
 		this->boundsOfMajorEntities.push_back(playerBounds);
 		bounds = this->bots[i]->getLaserBounds();
 		for (unsigned j = 0; j < bounds.size(); j++)

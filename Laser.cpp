@@ -36,19 +36,19 @@ void Laser::initVariables(Sprite * sprite, bool isPlayer, int playerIndex)
 	switch ((int)sprite->getRotation()) {
 		case 0:
 			this->sprite.setTexture(this->textureV);
-			this->oldPos.y += 30;
+			// this->oldPos.y += 30;
 			break;
 		case 90:
 			this->sprite.setTexture(this->textureH);
-			this->oldPos.x -= 30;
+			// this->oldPos.x -= 30;
 			break;
 		case 180:
 			this->sprite.setTexture(this->textureV);
-			this->oldPos.y -= 30;
+			// this->oldPos.y -= 30;
 			break;
 		case 270:
 			this->sprite.setTexture(this->textureH);
-			this->oldPos.x += 30;
+			// this->oldPos.x += 30;
 			break;
 	}
 }
@@ -83,7 +83,9 @@ void Laser::update(Sprite * sprite)
 	if (this->oldAngle == sprite->getRotation())
 	{
 		float dx, dy, ds;
-		ds = sprite->getTexture()->getSize().y / 2 + 20;
+
+		/*
+		ds = sprite->getTexture()->getSize().y / 2 + 5;
 
 		switch ((int)this->oldAngle)
 		{
@@ -104,6 +106,10 @@ void Laser::update(Sprite * sprite)
 				dy = 0;
 				break;
 		}
+		*/
+
+		dx = sprite->getPosition().x - this->oldPos.x;
+		dy = sprite->getPosition().y - this->oldPos.y;
 
 		if (dx == 0)
 		{
@@ -152,6 +158,7 @@ void Laser::update(Sprite * sprite)
 		this->oldPos = sprite->getPosition();
 		this->oldAngle = sprite->getRotation();
 
+		/*
 		switch ((int)this->oldAngle) {
 			case 0:
 				this->oldPos.y += 30;
@@ -166,6 +173,7 @@ void Laser::update(Sprite * sprite)
 				this->oldPos.x += 30;
 				break;
 		}
+		*/
 	}
 }
 

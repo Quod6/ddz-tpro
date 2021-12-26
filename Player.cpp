@@ -82,7 +82,7 @@ void Player::initShape()
 {
 	this->sprite.setTexture(this->texture);
 	this->sprite.setOrigin(this->texture.getSize().x / 2,
-							this->texture.getSize().y / 2);
+							this->texture.getSize().y);
 	this->sprite.setPosition(this->position.x, this->position.y);
 	this->sprite.setScale(2.f, 2.f);
 }
@@ -193,9 +193,27 @@ Player::~Player()
 	delete this->laser;
 }
 
-Sprite Player::getPlayerSprite()
+FloatRect Player::getPlayerBounds()
 {
-	return this->sprite;
+	FloatRect bounds = this->sprite.getGlobalBounds();
+	switch((int)this->sprite.getRotation())
+	{
+		case 0:
+			bounds.height = bounds.height / 2;
+			break;
+		case 90:
+			bounds.width = bounds.width / 2;
+			bounds.left += bounds.width;
+			break;
+		case 180:
+			bounds.height = bounds.height / 2;
+			bounds.top += bounds.height;
+			break;
+		case 270:
+			bounds.width = bounds.width / 2;
+			break;
+	}
+	return bounds;
 }
 
 vector<FloatRect> Player::getLaserBounds()
