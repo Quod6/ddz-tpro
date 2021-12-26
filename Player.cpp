@@ -13,7 +13,7 @@ void Player::initParser()
 void Player::initLaser()
 {
 	this->laser = nullptr;
-	this->laser = new Laser(&this->sprite, isPlayer);
+	this->laser = new Laser(&this->sprite, isPlayer, this->playerIndex);
 }
 
 // Init next newPosition
@@ -57,12 +57,13 @@ void Player::initNewNextPos()
 }
 
 // Init variables
-void Player::initVariables(bool isPlayer, float x, float y, float z)
+void Player::initVariables(bool isPlayer, int playerIndex, float x, float y, float z)
 {
+	this->playerIndex = playerIndex;
 	if (isPlayer)
 	{
 		this->texture.loadFromFile("./source/imgs/cycles.png",
-			IntRect(13 + 13 * this->parser->getPlayerColor(), 0, 13, 25));
+			IntRect(13 + 13 * this->parser->getPlayerColor(playerIndex), 0, 13, 25));
 	}
 	else
 	{
@@ -86,6 +87,29 @@ void Player::initShape()
 	this->sprite.setScale(2.f, 2.f);
 }
 
+// Checking collisions with walls
+bool Player::wallCollision()
+{
+	if (this->sprite.getPosition().x < 120)
+		return false;
+	if (this->sprite.getPosition().x > this->parser->getWindowWidth() - 120)
+		return false;
+	if (this->sprite.getPosition().y < 100)
+		return false;
+	if (this->sprite.getPosition().y > this->parser->getWindowHeight() - 70)
+		return false;
+	return true;
+}
+
+// Makes BOOM
+void Player::destroy(float dt)
+{
+	int a = 0;
+	int b = 0;
+	cout << a / b << endl;
+}
+
+
 // change angle of sprite direction
 void Player::setDirection()
 {
@@ -107,7 +131,7 @@ void Player::setDirection()
 
 void Player::move(float dt)
 {
-	if(1 == 1)
+	if(this->wallCollision() && !this->isCollided)
 	{
 		this->setDirection();
 		switch (static_cast<int>(this->position.z))
@@ -152,19 +176,13 @@ void Player::rotate(short direction)
 		this->position.z = static_cast<int>(direction);
 }
 
-// Makes BOOM
-void Player::destroy(float dt)
-{
-
-}
-
 // Constructor & destructor
-Player::Player(bool isPlayer, float x, float y, float z)
+Player::Player(bool isPlayer, int playerIndex, float x, float y, float z)
 {
 	this->initParser();
 	this->initLaser();
 	// x, y - start coordinates of sprite
-	this->initVariables(isPlayer, x, y, z);
+	this->initVariables(isPlayer, playerIndex, x, y, z);
 	this->initShape();
 	if (!this->isPlayer) this->initNewNextPos();
 }
@@ -173,6 +191,21 @@ Player::~Player()
 {
 	delete this->parser;
 	delete this->laser;
+}
+
+Sprite Player::getPlayerSprite()
+{
+	return this->sprite;
+}
+
+vector<FloatRect> Player::getLaserBounds()
+{
+	return this->laser->getBounds();
+}
+
+void Player::setCollided(bool value)
+{
+	this->isCollided = value;
 }
 
 // Public functions

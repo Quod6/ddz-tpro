@@ -3,8 +3,10 @@
 
 class Player
 {
-protected:
+private:
 	bool isPlayer;
+	int playerIndex;
+	bool isCollided;
 	ConstParser * parser;
 	Laser * laser;
 	Vector3f position;
@@ -16,17 +18,23 @@ protected:
 	void initParser();
 	void initLaser();
 	void initNewNextPos();
-	void initVariables(bool isPlayer, float x, float y, float z);
+	void initVariables(bool isPlayer, int playerIndex, float x, float y, float z);
 	void initShape();
 
+	bool wallCollision();
 	void destroy(float dt);
 	void setDirection();
 	void move(float dt);
 	void rotate(short direction);
 
 public:
-	Player(bool isPlayer, float x = 0.f, float y = 0.f, float z = 1.f);
+	Player(bool isPlayer, int indexPlayer, float x = 0.f, float y = 0.f, float z = 1.f);
 	virtual ~Player();
+
+	Sprite getPlayerSprite();
+	vector<FloatRect> getLaserBounds();
+
+	void setCollided(bool value);
 
 	void updateInput(float dt);
 	void update(float dt);
