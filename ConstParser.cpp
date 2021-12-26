@@ -11,7 +11,7 @@ ConstParser::ConstParser()
 	this->MAP_INDEX = 0;
 	this->PLAYER_COUNT = 1;
 	this->BOT_COUNT = 0;
-	// this->CONTROL = "letters";
+	this->CONTROL = "letters";
 }
 
 void ConstParser::parse(string filepath)
