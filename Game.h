@@ -70,6 +70,8 @@ public:
 	const bool isRunning() const;
 
 	// Public functions
+	RenderWindow* getGameWindow();
+	Event * getGameEvent();
 	void pollEvents();
 	void update(float dt);
 	void render();

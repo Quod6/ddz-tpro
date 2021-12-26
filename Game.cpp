@@ -171,6 +171,16 @@ const bool Game::isRunning() const
 }
 
 // Public functions
+RenderWindow* Game::getGameWindow()
+{
+	return this->window;
+}
+
+Event * Game::getGameEvent()
+{
+	return &this->evnt;
+}
+
 void Game::pollEvents()
 {
 	while(this->window->pollEvent(this->evnt))
@@ -188,7 +198,7 @@ void Game::pollEvents()
 
 void Game::update(float dt)
 {
-	this->pollEvents();
+	// this->pollEvents();
 	this->checkGlobalCollision();
 
 	for (unsigned i = 0; i < this->players.size(); i++)

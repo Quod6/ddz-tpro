@@ -42,7 +42,7 @@ int choise_map = 666;
 int b612 = 0;
 
 void main_menu(RenderWindow& window, int amount);
-bool is_pause(RenderWindow& window);
+int is_pause(RenderWindow& window);
 
 bool setup_multi2(RenderWindow& window, Sprite& background, int status);
 bool choose_mode(RenderWindow& window);
@@ -1253,20 +1253,20 @@ bool choose_mode(RenderWindow& window) {
 
 }
 
-bool is_pause(RenderWindow& window) {
+int is_pause(RenderWindow& window) {
 	Texture pause, Continue, quit_to_menu, circle1, circle2, circle3, restart, background;
-	pause.loadFromFile("./source/imgs/pause.psd");
 	Continue.loadFromFile("./source/imgs/continue.psd");
 	quit_to_menu.loadFromFile("./source/imgs/quit_to_menu.psd");
 	circle1.loadFromFile("./source/imgs/circle.psd");
 	circle2.loadFromFile("./source/imgs/circle.psd");
 	circle3.loadFromFile("./source/imgs/circle.psd");
 	restart.loadFromFile("./source/imgs/restart.psd");
-	background.loadFromFile("./source/imgs/101.psd");
+	background.loadFromFile("./source/concept/obema.png");
 
-	Sprite sprite_pause(pause), sprite_continue(Continue), sprite_quit(quit_to_menu), sprite_circle1(circle1), sprite_circle2(circle2), sprite_circle3(circle3), sprite_restart(restart), sprite_back(background);
+	Sprite  sprite_continue(Continue), sprite_quit(quit_to_menu), sprite_circle1(circle1), sprite_circle2(circle2), sprite_circle3(circle3), sprite_restart(restart), sprite_back(background);
+	sprite_back.setScale(1280.f / background.getSize().x,720.f / background.getSize().y);
 	sprite_back.setPosition(0, 0);
-	sprite_pause.setPosition(500, 20);
+
 	sprite_continue.setPosition(500, 200);
 	sprite_restart.setPosition(500, 400);
 	sprite_quit.setPosition(400, 600);
@@ -1280,7 +1280,6 @@ bool is_pause(RenderWindow& window) {
 	{
 		menu_status = 20;
 		sprite_back.setColor(Color::White);
-		sprite_pause.setColor(Color::White);
 		sprite_continue.setColor(Color::White);
 		sprite_quit.setColor(Color::White);
 		sprite_restart.setColor(Color::White);
@@ -1316,17 +1315,16 @@ bool is_pause(RenderWindow& window) {
 				switch (menu_status)
 				{
 				case 1:
-
-
 					choise = 1;
-					return false;
+
 					break;
 				case 2:
-					choise = 2;
+				choise = 3;
+					return 2;
 					break;
 				case 3:
 					choise = 3;
-					is_menu = false;
+					return 3;
 					break;
 				default:
 					break;
@@ -1335,10 +1333,10 @@ bool is_pause(RenderWindow& window) {
 		}
 
 
-		sprite_back.setColor(Color(192, 192, 192, 255));
+
 		window.clear();
 		window.draw(sprite_back);
-		window.draw(sprite_pause);
+
 		window.draw(sprite_continue);
 		window.draw(sprite_quit);
 		window.draw(sprite_restart);
@@ -1352,16 +1350,16 @@ bool is_pause(RenderWindow& window) {
 			window.draw(sprite_circle3);
 		}
 		if (choise == 1) {
-			window.draw(sprite_circle1);
+			return 1;
 		}
 		if (choise == 2) {
-			window.draw(sprite_circle2);
+			return 2;
 		}
 		if (choise == 3) {
-			window.draw(sprite_circle3);
+			return 3;
 		}
-
 		window.display();
+
 	}
-	return true;
+	return 0;
 }
