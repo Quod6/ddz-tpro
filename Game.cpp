@@ -372,17 +372,20 @@ void Game::pollEvents()
 
 void Game::update(float dt)
 {
-	// this->pollEvents();
-	this->checkGlobalCollision();
+	if (!this->endGame)
+	{
+		// this->pollEvents();
+		this->checkGlobalCollision();
 
-	this->endGame = checkGameResult();
+		this->endGame = checkGameResult();
 
-	this->updateTimer(dt);
+		this->updateTimer(dt);
 
-	for (unsigned i = 0; i < this->players.size(); i++)
-		this->players[i]->update(dt);
-	for (unsigned i = 0; i < this->bots.size(); i++)
-		this->bots[i]->update(dt);
+		for (unsigned i = 0; i < this->players.size(); i++)
+			this->players[i]->update(dt);
+		for (unsigned i = 0; i < this->bots.size(); i++)
+			this->bots[i]->update(dt);
+	}
 }
 
 void Game::render()
