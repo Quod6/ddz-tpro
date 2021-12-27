@@ -1,6 +1,6 @@
 g++ -c main.cpp Game.cpp Player.cpp ConstParser.cpp Libs.cpp Laser.cpp -ISFML/SFML/include
 
-g++ main.o Game.o Player.o ConstParser.o Libs.o Laser.o -o tron -LSFML/SFML/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+g++ main.o Game.o Player.o ConstParser.o Libs.o Laser.o -o tron -LSFML/SFML/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -static -static-libgcc -static-libstdc++
 
 # Долгосрочное домашнее задание (игра "Трон")
 

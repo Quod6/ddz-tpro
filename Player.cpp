@@ -60,6 +60,9 @@ void Player::initNewNextPos()
 void Player::initVariables(bool isPlayer, int playerIndex, float x, float y, float z)
 {
 	this->playerIndex = playerIndex;
+	this->typeOfTexture = 0;
+	this->CURRENT_FRAME = 0;
+	this->destruction.loadFromFile("./source/imgs/destruction.png");
 	if (isPlayer)
 	{
 		this->texture.loadFromFile("./source/imgs/cycles.png",
@@ -159,9 +162,18 @@ bool Player::wallCollision()
 // Makes BOOM
 void Player::destroy(float dt)
 {
-	int a = 0;
-	int b = 0;
-	cout << a / b << endl;
+	this->typeOfTexture = -1;
+	this->drawingFrame = 0;
+	if (this->drawingFrame == 7) return;
+	if (this->CURRENT_FRAME == 0)
+	{
+		this->sprite.setTexture(this->destruction);
+		this->sprite.setTextureRect(IntRect(0, 0, 192, 192));
+		this->sprite.setOrigin(96, 96);
+	}
+	this->drawingFrame = this->CURRENT_FRAME / 4;
+	this->sprite.setTextureRect(IntRect(192 * this->drawingFrame, 0, 192, 192));
+	this->CURRENT_FRAME += 0.25;
 }
 
 
@@ -250,25 +262,35 @@ Player::~Player()
 
 FloatRect Player::getPlayerBounds()
 {
-	FloatRect bounds = this->sprite.getGlobalBounds();
-	switch((int)this->sprite.getRotation())
+	if (this->typeOfTexture == 0)
 	{
-		case 0:
-			bounds.height = bounds.height / 2;
-			break;
-		case 90:
-			bounds.width = bounds.width / 2;
-			bounds.left += bounds.width;
-			break;
-		case 180:
-			bounds.height = bounds.height / 2;
-			bounds.top += bounds.height;
-			break;
-		case 270:
-			bounds.width = bounds.width / 2;
-			break;
+		FloatRect bounds = this->sprite.getGlobalBounds();
+		switch((int)this->sprite.getRotation())
+		{
+			case 0:
+				bounds.height = bounds.height / 2;
+				break;
+			case 90:
+				bounds.width = bounds.width / 2;
+				bounds.left += bounds.width;
+				break;
+			case 180:
+				bounds.height = bounds.height / 2;
+				bounds.top += bounds.height;
+				break;
+			case 270:
+				bounds.width = bounds.width / 2;
+				break;
+		}
+		return bounds;
 	}
-	return bounds;
+	else
+	{
+		FloatRect bounds(this->sprite.getPosition().x,
+				this->sprite.getPosition().y,
+				1, 1);
+		return bounds;
+	}
 }
 
 vector<FloatRect> Player::getLaserBounds()

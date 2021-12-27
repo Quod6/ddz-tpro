@@ -10,6 +10,9 @@ int main()
 
 	// Init random seed
 	reseed(time(0));
+	RenderWindow * q = new RenderWindow(VideoMode(1280,720), "TRON",Style::Close | Style::Titlebar);
+	paint(*q);
+	delete q;
 	Menu:
 	RenderWindow * w = new RenderWindow(VideoMode(1280,720), "TRON",Style::Close | Style::Titlebar);
 	choose_mode(*w);
@@ -23,7 +26,7 @@ int main()
 	while (game.isRunning())
 	{
 		TIME = clock.getElapsedTime().asMilliseconds();
-
+		clock.restart();
 		// Poll event cycle
 		while(game.getGameWindow()->pollEvent(*game.getGameEvent()))
 		{

@@ -15,6 +15,11 @@ private:
 	Texture texture;
 	Sprite sprite;
 
+	int typeOfTexture;
+	int drawingFrame;
+	float CURRENT_FRAME;
+	Texture destruction;
+
 	void initParser();
 	void initLaser();
 	void initNewNextPos();

@@ -47,6 +47,22 @@ int is_pause(RenderWindow& window);
 bool setup_multi2(RenderWindow& window, Sprite& background, int status);
 bool choose_mode(RenderWindow& window);
 bool map_selection(RenderWindow& window, Sprite& background);
+void paint(RenderWindow& window){
+	Texture start;
+	start.loadFromFile("./source/concept/dream_team.png");
+	Sprite s(start);
+	s.setScale(1280.f / start.getSize().x, 720.f / start.getSize().y);
+	s. setPosition(0,0);
+	bool i =true;
+	while(i){
+		s.setColor(Color::White);
+		window.draw(s);
+		window.display();
+		Sleep(1000);
+		i=false;
+	}
+}
+
 bool exit(RenderWindow& window, Sprite& background)
 {
 	Texture are_u_sure, yes, no;
