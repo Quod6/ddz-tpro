@@ -18,8 +18,6 @@ private:
 	Font asherpunkFont;
 
 	// All sounds
-	SoundBuffer buffer;
-	Sound sound;
 	Music phonk;
 
 	// Background

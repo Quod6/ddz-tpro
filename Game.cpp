@@ -94,11 +94,6 @@ void Game::initVariables()
 	this->player2Name.setPosition(1200 - (32 * this->parser->getPlayerName(1).size()), 10);
 	this->timeText.setPosition(525, 10);
 
-	// Init sounds
-	this->buffer.loadFromFile("./source/sounds/laser.ogg");
-	this->sound.setBuffer(this->buffer);
-	this->sound.setVolume(5.f);
-
 	// Init music
 	this->phonk.openFromFile("./source/sounds/CYBERSITY.ogg");
 	this->phonk.setVolume(20.f);
