@@ -40,6 +40,7 @@ public:
 	vector<FloatRect> getLaserBounds();
 
 	void setCollided(bool value);
+	bool getCollided();
 
 	void updateInput(float dt);
 	void update(float dt);

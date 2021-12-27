@@ -26,6 +26,16 @@ private:
 	Texture bgTexture;
 	Sprite bgSprite;
 
+	// BG of endGame
+	Texture endGameTexture;
+	Sprite endGameSprite;
+
+	// Text of names and timer
+	Text player1Name;
+	Text player2Name;
+	Text timeText;
+	float seconds;
+
 	// Player
 	vector<Player *> players;
 
@@ -55,6 +65,8 @@ private:
 	void initPlayers();
 	void initBots();
 	void initWindow();
+	void updateTimer(float dt);
+	void renderText();
 
 	// Global bounds of all entities
 	void getBoundsOfEntities();
@@ -62,12 +74,16 @@ private:
 	// Global collision
 	void checkGlobalCollision();
 
+	// End game check
+	bool checkGameResult();
+
 public:
 	// Constructor & destructor
 	Game();
 	virtual ~Game();
 
 	const bool isRunning() const;
+	void gameResult(int isPl1Win);
 
 	// Public functions
 	RenderWindow* getGameWindow();

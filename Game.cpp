@@ -13,10 +13,86 @@ void Game::initVariables()
 	// Init window & main variables
 	this->window = nullptr;
 	this->endGame = false;
+	this->seconds = 0.f;
 
 	// Init fonts
 	this->cyberwayFont.loadFromFile("./source/fonts/CyberwayRiders.ttf");
 	this->asherpunkFont.loadFromFile("./source/fonts/AsherPunk.ttf");
+
+	// Set fonts to text
+	this->player1Name.setFont(this->cyberwayFont);
+	this->player2Name.setFont(this->cyberwayFont);
+	this->timeText.setFont(this->cyberwayFont);
+
+	// Set size of text
+	this->player1Name.setCharacterSize(50);
+	this->player2Name.setCharacterSize(50);
+	this->timeText.setCharacterSize(50);
+
+	// Set color of text
+	Color color;
+	switch (this->parser->getPlayerColor(0))
+	{
+		case 0:
+			color.r = 0;
+			color.g = 0;
+			color.b = 255;
+			break;
+		case 1:
+			color.r = 255;
+			color.g = 0;
+			color.b = 0;
+			break;
+		case 2:
+			color.r = 0;
+			color.g = 255;
+			color.b = 0;
+			break;
+		case 3:
+			color.r = 255;
+			color.g = 0;
+			color.b = 255;
+			break;
+	}
+	this->player1Name.setFillColor(color);
+	switch (this->parser->getPlayerColor(1))
+	{
+		case 0:
+			color.r = 0;
+			color.g = 0;
+			color.b = 255;
+			break;
+		case 1:
+			color.r = 255;
+			color.g = 0;
+			color.b = 0;
+			break;
+		case 2:
+			color.r = 0;
+			color.g = 255;
+			color.b = 0;
+			break;
+		case 3:
+			color.r = 255;
+			color.g = 0;
+			color.b = 255;
+			break;
+	}
+	this->player2Name.setFillColor(color);
+	color.r = 248;
+	color.g = 241;
+	color.b = 62;
+	this->timeText.setFillColor(color);
+
+	// Set strings to text
+	this->player1Name.setString(this->parser->getPlayerName(0));
+	this->player2Name.setString(this->parser->getPlayerName(1));
+	this->timeText.setString("Time: " + to_string((int)this->seconds));
+
+	// Set position to text
+	this->player1Name.setPosition(80, 10);
+	this->player2Name.setPosition(1200 - (32 * this->parser->getPlayerName(1).size()), 10);
+	this->timeText.setPosition(525, 10);
 
 	// Init sounds
 	this->buffer.loadFromFile("./source/sounds/laser.ogg");
@@ -101,6 +177,22 @@ void Game::initWindow()
 	this->window->setFramerateLimit(180);
 }
 
+// Updating Timer text
+void Game::updateTimer(float dt)
+{
+	this->seconds += dt / 1000;
+	this->timeText.setString("Time: " + to_string((int)this->seconds));
+}
+
+// Rendering text of Names & Timer
+void Game::renderText()
+{
+	this->window->draw(this->player1Name);
+	if (this->parser->getPlayerCount() == 2)
+		this->window->draw(this->player2Name);
+	this->window->draw(this->timeText);
+}
+
 void Game::getBoundsOfEntities()
 {
 	this->boundsOfEntities.clear();
@@ -147,6 +239,88 @@ void Game::checkGlobalCollision()
 				this->boundsOfMajorEntities[i].player->setCollided(true);
 		}
 	}
+}
+
+bool Game::checkGameResult()
+{
+
+		if (this->parser->getPlayerCount() == 1)
+		{
+			if (this->bots.size() != 0)
+			{
+				if (this->players[0]->getCollided())
+				{
+					this->gameResult(-1);
+					return true;
+				}
+
+				bool isAllBotsDestroyed = true;
+				for (unsigned i = 0; i < this->bots.size(); i++)
+					isAllBotsDestroyed = isAllBotsDestroyed && this->bots[i]->getCollided();
+
+				if (isAllBotsDestroyed)
+				{
+					this->gameResult(1);
+					return true;
+				}
+			}
+		}
+		else
+		{
+			if (this->players[0]->getCollided() && !this->players[1]->getCollided())
+			{
+				this->gameResult(-1);
+				return true;
+			}
+			else if (this->players[1]->getCollided() && this->players[0]->getCollided())
+			{
+				this->gameResult(0);
+				return true;
+			}
+			else if (!this->players[0]->getCollided() && this->players[1]->getCollided())
+			{
+				this->gameResult(1);
+				return true;
+			}
+			else return false;
+		}
+
+	return false;
+}
+
+void Game::gameResult(int isPl1Win)
+{
+	if (this->parser->getPlayerCount() == 1)
+	{
+		switch (isPl1Win)
+		{
+			case -1:
+				this->endGameTexture.loadFromFile("./source/concept/lose.png");
+				break;
+			case 1:
+				this->endGameTexture.loadFromFile("./source/concept/win.png");
+				break;
+		}
+	}
+	else
+	{
+		switch (isPl1Win)
+		{
+			case -1:
+				this->endGameTexture.loadFromFile("./source/concept/1l2w.png");
+				break;
+			case 0:
+				this->endGameTexture.loadFromFile("./source/concept/draw.png");
+				break;
+			case 1:
+				this->endGameTexture.loadFromFile("./source/concept/1w2l.png");
+				break;
+		}
+	}
+	this->endGameSprite.setTexture(this->endGameTexture);
+	this->endGameSprite.setScale(1280.f / this->endGameTexture.getSize().x,
+		720.f / this->endGameTexture.getSize().y);
+	this->endGameSprite.setPosition(0, 0);
 }
 
 // Constructor & destructor
@@ -201,6 +375,10 @@ void Game::update(float dt)
 	// this->pollEvents();
 	this->checkGlobalCollision();
 
+	this->endGame = checkGameResult();
+
+	this->updateTimer(dt);
+
 	for (unsigned i = 0; i < this->players.size(); i++)
 		this->players[i]->update(dt);
 	for (unsigned i = 0; i < this->bots.size(); i++)
@@ -214,10 +392,16 @@ void Game::render()
 
 	// Draw game objects
 	this->window->draw(this->bgSprite);
+
+	this->renderText();
+
 	for (unsigned i = 0; i < this->players.size(); i++)
 		this->players[i]->render(this->window);
 	for (unsigned i = 0; i < this->bots.size(); i++)
 		this->bots[i]->render(this->window);
+
+	if (this->endGame)
+		this->window->draw(this->endGameSprite);
 
 	// Display new frame
 	this->window->display();

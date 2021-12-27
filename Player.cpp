@@ -286,9 +286,7 @@ FloatRect Player::getPlayerBounds()
 	}
 	else
 	{
-		FloatRect bounds(this->sprite.getPosition().x,
-				this->sprite.getPosition().y,
-				1, 1);
+		FloatRect bounds(-10, -10, 1, 1);
 		return bounds;
 	}
 }
@@ -301,6 +299,11 @@ vector<FloatRect> Player::getLaserBounds()
 void Player::setCollided(bool value)
 {
 	this->isCollided = value;
+}
+
+bool Player::getCollided()
+{
+	return this->isCollided;
 }
 
 // Public functions

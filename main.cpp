@@ -10,6 +10,8 @@ int main()
 
 	// Init random seed
 	reseed(time(0));
+
+	// Main menu
 	RenderWindow * q = new RenderWindow(VideoMode(1280,720), "TRON",Style::Close | Style::Titlebar);
 	paint(*q);
 	delete q;
@@ -20,29 +22,34 @@ int main()
 
 	// Init Game engine
 	Restart:
-	Game game;
+	Game * game = new Game;
 	int pauseResult = 4;
+
+	// Restarting timer before main loop
+	clock.restart();
+
 	// Main loop
-	while (game.isRunning())
+	while (game->isRunning())
 	{
 		TIME = clock.getElapsedTime().asMilliseconds();
 		clock.restart();
 		// Poll event cycle
-		while(game.getGameWindow()->pollEvent(*game.getGameEvent()))
+		while(game->getGameWindow()->pollEvent(*game->getGameEvent()))
 		{
-			switch (game.getGameEvent()->type) {
+			switch (game->getGameEvent()->type) {
 				case Event::Closed:
-					game.getGameWindow()->close();
+					game->getGameWindow()->close();
 					break;
 				case Event::KeyPressed:
-					if(game.getGameEvent()->key.code == Keyboard::Escape)
+					if(game->getGameEvent()->key.code == Keyboard::Escape)
 					{
-						pauseResult = is_pause(*game.getGameWindow());
+						pauseResult = is_pause(*game->getGameWindow());
 						switch (pauseResult)
 						{
 							case 1:
 								break;
 							case 2:
+								delete game;
 								goto Restart;
 							case 3:
 								goto Menu;
@@ -62,10 +69,10 @@ int main()
 			return 0;
 
 		//Update
-		game.update(TIME);
+		game->update(TIME);
 
 		// Render
-		game.render();
+		game->render();
 	}
 
 	return 0;
