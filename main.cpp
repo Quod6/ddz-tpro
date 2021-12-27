@@ -52,6 +52,7 @@ int main()
 								delete game;
 								goto Restart;
 							case 3:
+								delete game;
 								goto Menu;
 						}
 					}
