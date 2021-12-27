@@ -62,6 +62,7 @@ void Player::initVariables(bool isPlayer, int playerIndex, float x, float y, flo
 	this->playerIndex = playerIndex;
 	this->typeOfTexture = 0;
 	this->CURRENT_FRAME = 0;
+	this->isCollided = false;
 	this->destruction.loadFromFile("./source/imgs/destruction.png");
 	if (isPlayer)
 	{
@@ -198,7 +199,8 @@ void Player::setDirection()
 
 void Player::move(float dt)
 {
-	if(!this->wallCollision() && !this->isCollided)
+	this->isCollided = this->isCollided || this->wallCollision();
+	if(!this->isCollided)
 	{
 		this->setDirection();
 		switch (static_cast<int>(this->position.z))
